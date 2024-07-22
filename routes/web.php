@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::controller(\App\Http\Controllers\AuthController::class)->group(function () {
+    Route::get('login', 'login')->name('login');
+    Route::post('login', 'loginStore')->name('login.store');
+});
 // Example Routes
 Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 Route::resources([
