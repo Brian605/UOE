@@ -12,7 +12,7 @@ class ResearchController extends Controller
      */
     public function index()
     {
-        return view('research.index', [
+        return view('Research.index', [
             "researches" => Research::all()
         ]);
     }
