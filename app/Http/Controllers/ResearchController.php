@@ -12,15 +12,9 @@ class ResearchController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return view('research.index', [
+            "researches" => Research::all()
+        ]);
     }
 
     /**
@@ -28,7 +22,24 @@ class ResearchController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $research = Research::query()->create([
+            'department' => $request->department,
+            'title' => $request->title,
+            'description' => $request->description,
+            'start_date' => $request->start_date,
+            'end_date' => $request->end_date,
+            'status' => $request->status
+        ]);
+        if ($research) {
+            return to_route('research.index')->with([
+                "message" => "Research created successfully",
+                "success" => true
+            ]);
+        }
+        return back()->with([
+            "message" => "An error occurred",
+            "success" => false
+        ]);
     }
 
     /**
@@ -40,26 +51,58 @@ class ResearchController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Research $research)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Research $research)
+    public function update(Request $request, string $id)
     {
-        //
+        $research = Research::query()->findOrFail($id);
+        if ($research) {
+            $update = $research->update([
+                'department' => $request->department,
+                'title' => $request->title,
+                'description' => $request->description,
+                'start_date' => $request->start_date,
+                'end_date' => $request->end_date,
+                'status' => $request->status
+            ]);
+            if ($update) {
+                return to_route('research.index')->with([
+                    "message" => "Research updated successfully",
+                    "success" => true
+                ]);
+            }
+            return back()->with([
+                "message" => "An error occurred",
+                "success" => false
+            ]);
+        }
+        return back()->with([
+            "message" => "An error occurred",
+            "success" => false
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Research $research)
+    public function destroy(string $id)
     {
-        //
+        $research = Research::query()->findOrFail($id);
+        if ($research) {
+            if ($research->delete()) {
+                return to_route('research.index')->with([
+                    "message" => "Research deleted successfully",
+                    "success" => true
+                ]);
+            }
+            return back()->with([
+                "message" => "An error occurred",
+                "success" => false
+            ]);
+        }
+        return back()->with([
+            "message" => "An error occurred",
+            "success" => false
+        ]);
     }
 }
