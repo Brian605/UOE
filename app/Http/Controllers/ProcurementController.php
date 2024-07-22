@@ -27,7 +27,7 @@ class ProcurementController extends Controller
             'quantity' => $request->quantity,
             'cost' => $request->cost,
             'type' => $request->type,
-            'date' => $request->date,
+            'date' => now(),
             'payment_mode' => $request->payment_mode,
             'transaction_id' => $request->transaction_id
         ]);
@@ -74,7 +74,7 @@ class ProcurementController extends Controller
                 'quantity' => $request->quantity,
                 'cost' => $request->cost,
                 'type' => $request->type,
-                'date' => $request->date,
+                'date' => now(),
                 'payment_mode' => $request->payment_mode,
                 'transaction_id' => $request->transaction_id
             ]);

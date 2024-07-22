@@ -6,6 +6,10 @@
             <h3 class="block-title">Procurement</h3>
         </div>
         <div class="block-content block-content-full">
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createProcurement">
+                Add Procurement
+            </button>
             <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/tables_datatables.js -->
             <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
                 <thead>
@@ -17,6 +21,7 @@
                     <th>Type</th>
                     <th>payment Mode</th>
                     <th>Transaction</th>
+                    <th>Date</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -37,10 +42,13 @@
                             {{ $procurement->type }}
                         </td>
                         <td>
-                            {{ $procurement->paymeny_mode }}
+                            {{ $procurement->payment_mode }}
                         </td>
                         <td>
                             {{ $procurement->transaction_id }}
+                        </td>
+                        <td>
+                            {{ $procurement->date }}
                         </td>
                         <td>
 
@@ -49,6 +57,53 @@
                 @endforeach
                 </tbody>
             </table>
+        </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="createProcurement" tabindex="-1" aria-labelledby="createProcurementLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="createProcurementLabel">Add Procurement</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form action="{{ route('procurements.store') }}" method="post">
+                        <div class="modal-body">
+                            @csrf
+                            <div class="mb-3">
+                                <label for="item" class="form-label">Item</label>
+                                <input type="text" class="form-control" id="item" name="item">
+                            </div>
+                            <div class="mb-3">
+                                <label for="quantity" class="form-label">Quantity</label>
+                                <input type="number" class="form-control" id="quantity" name="quantity">
+                            </div>
+                            <div class="mb-3">
+                                <label for="cost" class="form-label">Cost</label>
+                                <input type="number" class="form-control" id="cost" name="cost">
+                            </div>
+                            <div class="mb-3">
+                                <label for="type" class="form-label">Type</label>
+                                <input type="text" class="form-control" id="type" name="type">
+                            </div>
+                            <div class="mb-3">
+                                <label for="payment_mode" class="form-label">Payment Mode</label>
+                                <input type="text" class="form-control" id="payment_mode" name="payment_mode">
+                            </div>
+                            <div class="mb-3">
+                                <label for="transaction_id" class="form-label">Transaction ID</label>
+                                <input type="text" class="form-control" id="transaction_id" name="transaction_id">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save </button>
+                        </div>
+
+                    </form>
+            </div>
         </div>
     </div>
 @endsection
