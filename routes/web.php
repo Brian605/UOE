@@ -14,10 +14,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Example Routes
-Route::view('/', 'landing');
-Route::match(['get', 'post'], '/dashboard', function(){
+Route::get('/', function () {
     return view('dashboard');
 });
-Route::view('/pages/slick', 'pages.slick');
-Route::view('/pages/datatables', 'pages.datatables');
-Route::view('/pages/blank', 'pages.blank');
+Route::resources([
+    "crops" => \App\Http\Controllers\CropsController::class,
+    "farm-plans" => \App\Http\Controllers\FarmPlansController::class,
+    "finances" => \App\Http\Controllers\FinanceController::class,
+    "livestocks" => \App\Http\Controllers\LivestockController::class,
+    "procurements" => \App\Http\Controllers\ProcurementController::class,
+    "research" => \App\Http\Controllers\ResearchController::class,
+]);
+
+Route::get('/datatable', function () {
+    return view('pages.datatables');
+});

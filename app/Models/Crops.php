@@ -12,7 +12,7 @@ class Crops extends Model
     protected $fillable = [
         'name',
         'type',
-        'plating_date',
+        'planting_date',
         'harvest_date',
         'quantity',
     ];

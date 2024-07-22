@@ -25,7 +25,7 @@ class CropsController extends Controller
         $crops = Crops::query()->create([
             'name' => $request->name,
             'type' => $request->type,
-            'plating_date' => $request->plating_date,
+            'planting_date' => $request->plating_date,
             'harvest_date' => $request->harvest_date,
             'quantity' => $request->quantity,
         ]);
@@ -62,7 +62,7 @@ class CropsController extends Controller
             $updated = $crops->update([
                 'name' => $request->name,
                 'type' => $request->type,
-                'plating_date' => $request->plating_date,
+                'planting_date' => $request->plating_date,
                 'harvest_date' => $request->harvest_date,
                 'quantity' => $request->quantity,
             ]);

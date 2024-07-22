@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string("name");
             $table->string("type");
-            $table->date("plating_date");
+            $table->date("planting_date");
             $table->date("harvest_date");
             $table->integer("quantity");
             $table->timestamps();

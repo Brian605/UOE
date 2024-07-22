@@ -45,15 +45,15 @@ class pageTablesDatatables {
 
     // Init full DataTable
     jQuery('.js-dataTable-full').DataTable({
-      pageLength: 5,
-      lengthMenu: [[5, 10, 20], [5, 10, 20]],
+      pageLength: 20,
+      lengthMenu: [[20, 50, 100], [20, 50, 100]],
       autoWidth: false
     });
 
     // Init DataTable with Buttons
     jQuery('.js-dataTable-buttons').DataTable({
-      pageLength: 5,
-      lengthMenu: [[5, 10, 20], [5, 10, 20]],
+      pageLength: 20,
+      lengthMenu: [[20, 50, 100], [20, 50, 100]],
       autoWidth: false,
       buttons: ['copy', 'csv', 'excel', 'pdf', 'print'],
       dom: "<'row'<'col-sm-12'<'text-center bg-body-light py-2 mb-2'B>>>" +
