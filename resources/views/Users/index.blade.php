@@ -66,7 +66,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password</label>
-                                <input type="date" class="form-control" id="password" name="password">
+                                <input type="password" class="form-control" id="password" name="password">
                             </div>
                         </div>
                         <div class="modal-footer">
