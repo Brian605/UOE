@@ -14,9 +14,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Example Routes
-Route::get('/', function () {
-    return view('dashboard');
-});
+Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 Route::resources([
     "crops" => \App\Http\Controllers\CropsController::class,
     "farm-plans" => \App\Http\Controllers\FarmPlansController::class,
@@ -26,6 +24,3 @@ Route::resources([
     "research" => \App\Http\Controllers\ResearchController::class,
 ]);
 
-Route::get('/datatable', function () {
-    return view('pages.datatables');
-});

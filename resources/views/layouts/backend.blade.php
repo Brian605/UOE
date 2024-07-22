@@ -29,11 +29,11 @@
 <body>
 @php
     $links = [
-//        [
-//            "name" =>  "Dashboard",
-//            "active" => request()->routeIs('dashboard'),
-//            "url" => "dashboard"
-//        ],
+        [
+            "name" =>  "Dashboard",
+            "active" => request()->routeIs('dashboard'),
+            "url" => "dashboard"
+        ],
         [
             "name" =>  "Crops",
             "active" => request()->routeIs('crops.index'),
