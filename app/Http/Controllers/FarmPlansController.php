@@ -29,12 +29,12 @@ class FarmPlansController extends Controller
         ]);
         if ($farmPlans)
         {
-            return response()->json([
+            return to_route('farm-plans.index')->with([
                 "message" => "Farm plans added successfully",
                 "success" => true
             ]);
         }
-        return response()->json([
+        return back()->with([
            "message" => "An error occurred",
            "success" => false
         ]);
@@ -63,17 +63,17 @@ class FarmPlansController extends Controller
             ]);
             if ($updated)
             {
-                return response()->json([
+                return to_route('farm-plans.index')->with([
                    "message" => "Updated successfully",
                    "success" => true
                 ]);
             }
-            return response()->json([
+            return back()->with([
                "message" => "An error occurred",
                "success" => false
             ]);
         }
-        return response()->json([
+        return back()->with([
             "message" => "Farm Plan Not found",
             "success" => false
         ]);
