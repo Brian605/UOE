@@ -32,43 +32,51 @@
         [
             "name" =>  "Dashboard",
             "active" => request()->routeIs('dashboard'),
-            "url" => "dashboard"
+            "url" => "dashboard",
+            "icon" => "fa fa-home"
         ],
         [
             "name" =>  "Crops",
             "active" => request()->routeIs('crops.index'),
-            "url" => "crops.index"
+            "url" => "crops.index",
+            "icon" => "fa fa-tree"
         ],
         [
             "name" =>  "Farm Plans",
             "active" => request()->routeIs('farm-plans.index'),
-            "url" => "farm-plans.index"
+            "url" => "farm-plans.index",
+            "icon" => "fa fa-book"
         ],
         [
             "name" =>  "Finance",
             "active" => request()->routeIs('finances.index'),
-            "url" => "finances.index"
+            "url" => "finances.index",
+            "icon" => "fa fa-usd"
         ],
         [
             "name" =>  "Live stocks",
             "active" => request()->routeIs('livestocks.index'),
-            "url" => "livestocks.index"
+            "url" => "livestocks.index",
+            "icon" => "fa fa-cow"
         ],
         [
             "name" =>  "Procurement",
             "active" => request()->routeIs('procurements.index'),
-            "url" => "procurements.index"
+            "url" => "procurements.index",
+            "icon" => "fa fa-balance-scale"
         ],
         [
             "name" =>  "Research",
             "active" => request()->routeIs('research.index'),
-            "url" => "research.index"
+            "url" => "research.index",
+            "icon" => "fa fa-search"
         ],
-//        [
-//            "name" =>  "Users",
-//            "active" => request()->routeIs('users.index'),
-//            "url" => "users.index"
-//        ],
+        [
+            "name" =>  "Users",
+            "active" => request()->routeIs('users.index'),
+            "url" => "users.index",
+            "icon" => "fa fa-user-circle"
+        ],
 
     ];
 
@@ -135,7 +143,7 @@
                         <li class="nav-main-item">
                             <a class="nav-main-link{{ $link['active'] ? ' active' : '' }}"
                                href="{{ route($link['url']) }}">
-                                <i class="nav-main-link-icon fa fa-location-arrow"></i>
+                                <i class="nav-main-link-icon {{ $link['icon'] }}"></i>
                                 <span class="nav-main-link-name">{{ $link['name']  }}</span>
 {{--                                <span class="nav-main-link-badge badge rounded-pill bg-primary">5</span>--}}
                             </a>

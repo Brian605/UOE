@@ -26,5 +26,6 @@ Route::resources([
     "livestocks" => \App\Http\Controllers\LivestockController::class,
     "procurements" => \App\Http\Controllers\ProcurementController::class,
     "research" => \App\Http\Controllers\ResearchController::class,
+    "users" => \App\Http\Controllers\UserController::class,
 ]);
 
