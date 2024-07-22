@@ -30,12 +30,12 @@ class LivestockController extends Controller
             'health_status' => $request->health_status,
         ]);
         if ($livestock) {
-            return response()->json([
+            return to_route('livestocks.index')->with([
                 "message" => "Livestock created successfully",
                 "success" => true
             ]);
         }
-        return response()->json([
+        return back()->with([
             "message" => "An error occurred",
             "success" => false
         ]);
@@ -64,17 +64,17 @@ class LivestockController extends Controller
                 'health_status' => $request->health_status,
             ]);
             if ($updated) {
-                return response()->json([
+                return to_route('livestocks.index')->with([
                     "message" => "Livestock created successfully",
                     "success" => true
                 ]);
             }
-            return response()->json([
+            return back()->with([
                 "message" => "An error occurred",
                 "success" => false
             ]);
         }
-        return response()->json([
+        return back()->with([
             "message" => "An error occurred",
             "success" => false
         ]);
