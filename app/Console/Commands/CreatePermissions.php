@@ -33,7 +33,7 @@ class CreatePermissions extends Command
         // Get all routes
         $routes = Route::getRoutes()->getRoutes();
 
-        $authRoutes = ['login', 'register', 'password.request', 'password.reset', 'password.confirm', 'password.email', 'verification.send', 'verification.verify', 'verification.resend', 'sanctum.csrf-cookie', 'dark-mode-switcher', 'color-scheme-switcher', 'password.update', 'logout', 'verification.notice'];
+        $authRoutes = ['login','login.store', 'register', 'password.request', 'password.reset', 'password.confirm', 'password.email', 'verification.send', 'verification.verify', 'verification.resend', 'sanctum.csrf-cookie', 'dark-mode-switcher', 'color-scheme-switcher', 'password.update', 'logout', 'verification.notice'];
 
         foreach ($routes as $route) {
             if ($route->getName() != '' && $route->getAction()['middleware']['0'] === 'web' && !in_array($route->getName(), $authRoutes) ) {

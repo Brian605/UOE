@@ -77,6 +77,18 @@
             "url" => "users.index",
             "icon" => "fa fa-user-circle"
         ],
+        [
+            "name" =>  "Roles",
+            "active" => request()->routeIs('roles.index'),
+            "url" => "roles.index",
+            "icon" => "fa fa-user-circle"
+        ],
+        [
+            "name" =>  "Permissions",
+            "active" => request()->routeIs('permissions.index'),
+            "url" => "permissions.index",
+            "icon" => "fa fa-user-circle"
+        ],
 
     ];
 
