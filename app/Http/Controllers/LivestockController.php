@@ -12,15 +12,9 @@ class LivestockController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return view('Livestock.index', [
+            "livestocks" => Livestock::all()
+        ]);
     }
 
     /**
@@ -28,7 +22,23 @@ class LivestockController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $livestock = Livestock::query()->create([
+            'type' => $request->type,
+            'breed' => $request->breed,
+            'birth_date' => $request->birth_date,
+            'weight' => $request->weight,
+            'health_status' => $request->health_status,
+        ]);
+        if ($livestock) {
+            return response()->json([
+                "message" => "Livestock created successfully",
+                "success" => true
+            ]);
+        }
+        return response()->json([
+            "message" => "An error occurred",
+            "success" => false
+        ]);
     }
 
     /**
@@ -40,26 +50,59 @@ class LivestockController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Livestock $livestock)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Livestock $livestock)
+    public function update(Request $request, string $id)
     {
-        //
+        $livestock = Livestock::query()->findOrFail($id);
+        if ($livestock) {
+            $updated = $livestock->update([
+                'type' => $request->type,
+                'breed' => $request->breed,
+                'birth_date' => $request->birth_date,
+                'weight' => $request->weight,
+                'health_status' => $request->health_status,
+            ]);
+            if ($updated) {
+                return response()->json([
+                    "message" => "Livestock created successfully",
+                    "success" => true
+                ]);
+            }
+            return response()->json([
+                "message" => "An error occurred",
+                "success" => false
+            ]);
+        }
+        return response()->json([
+            "message" => "An error occurred",
+            "success" => false
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Livestock $livestock)
+    public function destroy(string $id)
     {
-        //
+        $livestock = Livestock::query()->findOrFail($id);
+        if ($livestock)
+        {
+            if ($livestock->delete())
+            {
+                return to_route('livestocks.index')->with([
+                   "message" => "Livestock deleted successfully",
+                    "success" => true
+                ]);
+            }
+            return back()->with([
+                "message" => "An error occurred",
+                "success" => false
+            ]);
+        }
+        return back()->with([
+            "message" => "An error occurred. Please try again",
+            "success" => false
+        ]);
     }
 }
