@@ -11,10 +11,9 @@ class Crops extends Model
 
     protected $fillable = [
         'name',
-        'description',
-        'image',
-        'price',
+        'type',
+        'plating_date',
+        'harvest_date',
         'quantity',
-        'category_id',
     ];
 }
