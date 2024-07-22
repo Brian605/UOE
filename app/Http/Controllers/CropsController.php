@@ -25,18 +25,18 @@ class CropsController extends Controller
         $crops = Crops::query()->create([
             'name' => $request->name,
             'type' => $request->type,
-            'planting_date' => $request->plating_date,
+            'planting_date' => $request->planting_date,
             'harvest_date' => $request->harvest_date,
             'quantity' => $request->quantity,
         ]);
         if ($crops)
         {
-            return response()->json([
+            return to_route('crops.index')->with([
                 "message" => "Crops successfully created",
                 "success" => true
             ]);
         }
-        return response()->json([
+        return back()->with([
             "message" => "An error occurred",
             "success" => false
         ]);
@@ -68,17 +68,17 @@ class CropsController extends Controller
             ]);
             if ($updated)
             {
-                return response()->json([
+                return to_route('crops.index')->with([
                    "message" => "Crops updated successfully",
                    "success" => false
                 ]);
             }
-            return response()->json([
+            return back()->with([
                 "message" => "Crops not updated successfully",
                 "success" => false
             ]);
         }
-        return response()->json([
+        return back()->with([
             "message" => "Crops not found",
             "success" => false
         ]);
