@@ -12,15 +12,9 @@ class FarmPlansController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        return view('FarmPlans', [
+            "farmPlans" => FarmPlans::all()
+        ]);
     }
 
     /**
@@ -28,7 +22,22 @@ class FarmPlansController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $farmPlans = FarmPlans::query()->create([
+            'objective' => $request->objective,
+            'layout' => $request->layout,
+            'infrastructure' => $request->infrastructure
+        ]);
+        if ($farmPlans)
+        {
+            return response()->json([
+                "message" => "Farm plans added successfully",
+                "success" => true
+            ]);
+        }
+        return response()->json([
+           "message" => "An error occurred",
+           "success" => false
+        ]);
     }
 
     /**
@@ -40,26 +49,59 @@ class FarmPlansController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(FarmPlans $farmPlans)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, FarmPlans $farmPlans)
+    public function update(Request $request, string $id)
     {
-        //
+        $farmPlan = FarmPlans::query()->findOrFail($id);
+        if ($farmPlan)
+        {
+            $updated = $farmPlan->update([
+                'objective' => $request->objective,
+                'layout' => $request->layout,
+                'infrastructure' => $request->infrastructure
+            ]);
+            if ($updated)
+            {
+                return response()->json([
+                   "message" => "Updated successfully",
+                   "success" => true
+                ]);
+            }
+            return response()->json([
+               "message" => "An error occurred",
+               "success" => false
+            ]);
+        }
+        return response()->json([
+            "message" => "Farm Plan Not found",
+            "success" => false
+        ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(FarmPlans $farmPlans)
+    public function destroy(string $id)
     {
-        //
+        $farmPlans = FarmPlans::query()->findOrFail($id);
+        if ($farmPlans)
+        {
+            if ($farmPlans->delete())
+            {
+                return to_route('farm-plans.index')->with([
+                    "message" => "Farm plan deleted successfully",
+                    "success" => true
+                ]);
+            }
+            return back()->with([
+               "message" => "An error occurred",
+               "success" => false
+            ]);
+        }
+        return back()->with([
+            "message" => "An error occurred",
+            "success" => false
+        ]);
     }
 }
