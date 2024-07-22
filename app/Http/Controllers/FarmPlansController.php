@@ -12,7 +12,7 @@ class FarmPlansController extends Controller
      */
     public function index()
     {
-        return view('FarmPlans', [
+        return view('FarmPlans.index', [
             "farmPlans" => FarmPlans::all()
         ]);
     }
