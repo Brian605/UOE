@@ -17,17 +17,20 @@ Route::controller(\App\Http\Controllers\AuthController::class)->group(function (
     Route::get('login', 'login')->name('login');
     Route::post('login', 'loginStore')->name('login.store');
 });
-// Example Routes
-Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
-Route::resources([
-    "crops" => \App\Http\Controllers\CropsController::class,
-    "farm-plans" => \App\Http\Controllers\FarmPlansController::class,
-    "finances" => \App\Http\Controllers\FinanceController::class,
-    "livestocks" => \App\Http\Controllers\LivestockController::class,
-    "procurements" => \App\Http\Controllers\ProcurementController::class,
-    "research" => \App\Http\Controllers\ResearchController::class,
-    "users" => \App\Http\Controllers\UserController::class,
-    "permissions" => \App\Http\Controllers\PermissionsController::class,
-    "roles" => \App\Http\Controllers\RolesController::class,
-]);
+Route::middleware(['auth', 'permission'])->group(function (){
+    // Example Routes
+    Route::get('/', [\App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+    Route::resources([
+        "crops" => \App\Http\Controllers\CropsController::class,
+        "farm-plans" => \App\Http\Controllers\FarmPlansController::class,
+        "finances" => \App\Http\Controllers\FinanceController::class,
+        "livestocks" => \App\Http\Controllers\LivestockController::class,
+        "procurements" => \App\Http\Controllers\ProcurementController::class,
+        "research" => \App\Http\Controllers\ResearchController::class,
+        "users" => \App\Http\Controllers\UserController::class,
+        "permissions" => \App\Http\Controllers\PermissionsController::class,
+        "roles" => \App\Http\Controllers\RolesController::class,
+    ]);
+});
+
 

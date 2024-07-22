@@ -31,7 +31,7 @@
                                 <div class="py-3">
                                     <div class="mb-4">
                                         <input type="text" class="form-control form-control-lg form-control-alt"
-                                               id="login-username" required name="username" placeholder="Username">
+                                               id="login-username" required name="email" placeholder="Username">
                                     </div>
                                     <div class="mb-4">
                                         <input type="password" class="form-control form-control-lg form-control-alt"
