@@ -24,12 +24,17 @@ class AuthController extends Controller
                 "success" => true
             ]);
         }
-        dd($user);
         return back()->with([
             "message" => "Invalid email or password",
             "success" => false
         ]);
 
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return to_route('login');
     }
 
     public function register()
