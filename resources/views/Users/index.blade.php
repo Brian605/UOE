@@ -35,7 +35,8 @@
                             {{ $user->roles ? $user->roles[0]->name : '' }}
                         </td>
                         <td class="d-flex gap-4">
-                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editUser">
+                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#editUser" onclick="edit({{ $user }})">
                                 Edit
                             </button>
                             <div>
