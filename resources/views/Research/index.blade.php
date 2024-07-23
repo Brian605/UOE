@@ -46,7 +46,20 @@
                         <td>
                             {{ $research->status }}
                         </td>
-                        <td>
+                        <td class="d-flex gap-4">
+                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                                    data-bs-target="#editResearch" onclick="edit({{ $research }})">
+                                Edit
+                            </button>
+                            <div>
+                                <form id="deleteForm{{$research->id}}" action="{{ route('research.destroy', $research->id) }}"
+                                      method="post">
+                                      @csrf
+                                      @method('DELETE')
+                                      <button type="submit" class="btn btn-danger" onclick="confirmDelete
+                                      ('deleteForm', {{ $research->id }})">Delete</button>
+                                </form>
+                            </div>
 
                         </td>
                     </tr>
