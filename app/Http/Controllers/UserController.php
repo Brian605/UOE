@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -13,7 +14,8 @@ class UserController extends Controller
     public function index()
     {
         return view('Users.index', [
-            'users' => User::all()
+            'users' => User::all(),
+            "roles" => Role::all()
         ]);
     }
 
@@ -32,8 +34,10 @@ class UserController extends Controller
             "name" => $request->name,
             "password" => bcrypt($request->password)
         ]);
+
         if ($user)
         {
+            $user->assignRole([$request->roleId]);
             return to_route('users.index')->with([
                 'message' => 'User created successfully',
                 "success" => true
