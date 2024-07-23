@@ -62,7 +62,7 @@ class CropsController extends Controller
             $updated = $crops->update([
                 'name' => $request->name,
                 'type' => $request->type,
-                'planting_date' => $request->plating_date,
+                'planting_date' => $request->planting_date,
                 'harvest_date' => $request->harvest_date,
                 'quantity' => $request->quantity,
             ]);

@@ -43,8 +43,9 @@
                             {{ $crop->quantity }}
                         </td>
                         <td>
-
-
+                            <button class="btn btn-secondary" data-bs-toggle="modal"
+                                    data-bs-target="#editCrop" onclick="editForm({{ $crop }})">Edit</button>
+                            <button class="btn btn-danger">Delete</button>
                         </td>
                     </tr>
                 @endforeach
@@ -93,5 +94,60 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="editCrop" tabindex="-1" aria-labelledby="editCropLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="editCropLabel">Add Crop</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="editForm" method="post">
+                    <div class="modal-body">
+                            @csrf
+                            @method('PUT')
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="edit_name" name="name" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="type" class="form-label">Type</label>
+                                <input type="text" class="form-control" id="edit_type" name="type" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="planting_date" class="form-label">Planting Date</label>
+                                <input type="date" class="form-control" id="edit_planting_date" name="planting_date"
+                                       required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="harvest_date" class="form-label">Harvest Date</label>
+                                <input type="date" class="form-control" id="edit_harvest_date" name="harvest_date"
+                                       required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="quantity" class="form-label">Quantity</label>
+                                <input type="number" class="form-control" id="edit_quantity" name="quantity" required>
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save </button>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
     </div>
+
+
+    <script>
+        const editForm = (crop) => {
+            const form = document.getElementById('editForm')
+            form.action = `/crops/${crop.id}`
+            document.getElementById('edit_name').value = crop.name
+            document.getElementById('edit_type').value = crop.type
+            document.getElementById('edit_planting_date').value = crop.planting_date
+            document.getElementById('edit_harvest_date').value = crop.harvest_date
+            document.getElementById('edit_quantity').value = crop.quantity
+        }
+    </script>
 @endsection
