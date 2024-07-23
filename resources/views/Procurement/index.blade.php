@@ -50,7 +50,20 @@
                         <td>
                             {{ $procurement->date }}
                         </td>
-                        <td>
+                        <td class="d-flex gap-4">
+                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                                    data-bs-target="#editProcurement" onclick="edit({{ $procurement }})">
+                                Edit
+                            </button>
+                            <div>
+                                <form id="deleteForm{{$procurement->id}}" action="{{ route('procurements.destroy', $procurement->id) }}"
+                                      method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn btn-danger" onclick="confirmDelete('deleteForm',
+                                    {{ $procurement->id }})">Delete</button>
+                                </form>
+                            </div>
 
                         </td>
                     </tr>
@@ -106,4 +119,61 @@
             </div>
         </div>
     </div>
+        <div class="modal fade" id="editProcurement" tabindex="-1" aria-labelledby="editProcurementLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="editProcurementLabel">Edit Procurement</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="editForm" method="post">
+                        <div class="modal-body">
+                            @csrf
+                            @method("PUT")
+                            <div class="mb-3">
+                                <label for="item" class="form-label">Item</label>
+                                <input type="text" class="form-control" id="edit_item" name="item">
+                            </div>
+                            <div class="mb-3">
+                                <label for="quantity" class="form-label">Quantity</label>
+                                <input type="number" class="form-control" id="edit_quantity" name="quantity">
+                            </div>
+                            <div class="mb-3">
+                                <label for="cost" class="form-label">Cost</label>
+                                <input type="number" class="form-control" id="edit_cost" name="cost">
+                            </div>
+                            <div class="mb-3">
+                                <label for="type" class="form-label">Type</label>
+                                <input type="text" class="form-control" id="edit_type" name="type">
+                            </div>
+                            <div class="mb-3">
+                                <label for="payment_mode" class="form-label">Payment Mode</label>
+                                <input type="text" class="form-control" id="edit_payment_mode" name="payment_mode">
+                            </div>
+                            <div class="mb-3">
+                                <label for="transaction_id" class="form-label">Transaction ID</label>
+                                <input type="text" class="form-control" id="edit_transaction_id" name="transaction_id">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save </button>
+                        </div>
+
+                    </form>
+            </div>
+        </div>
+    </div>
+        <script>
+            function edit(procurement) {
+                document.getElementById('edit_item').value = procurement.item;
+                document.getElementById('edit_quantity').value = procurement.quantity;
+                document.getElementById('edit_cost').value = procurement.cost;
+                document.getElementById('edit_type').value = procurement.type;
+                document.getElementById('edit_payment_mode').value = procurement.payment_mode;
+                document.getElementById('edit_transaction_id').value = procurement.transaction_id;
+                document.getElementById('editForm').action = '/procurements/' + procurement.id;
+            }
+        </script>
 @endsection
