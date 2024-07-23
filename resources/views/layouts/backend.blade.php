@@ -19,7 +19,7 @@
 
     <!-- Modules -->
     @yield('css')
-    @vite(['resources/sass/main.scss', 'resources/js/dashmix/app.js'])
+    @vite(['resources/sass/main.scss', 'resources/js/dashmix/app.js', 'resources/js/app.js'])
 
     <!-- Alternatively, you can also include a specific color theme after the main stylesheet to alter the default color theme of the template -->
     {{-- @vite(['resources/sass/main.scss', 'resources/sass/dashmix/themes/xwork.scss', 'resources/js/dashmix/app.js']) --}}

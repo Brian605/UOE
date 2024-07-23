@@ -38,7 +38,20 @@
                         <td>
                             {{ $finance->category }}
                         </td>
-                        <td>
+                        <td class="d-flex gap-4">
+                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#editFinance" onclick="edit({{ $finance }})">
+                                Edit
+                            </button>
+                            <div>
+                                <form id="deleteForm{{$finance->id}}" action="{{ route('finances.destroy', $finance->id) }}"
+                                      method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn btn-danger" onclick="confirmDelete('deleteForm',
+                                    {{ $finance->id }})">Delete</button>
+                                </form>
+                            </div>
 
                         </td>
                     </tr>
@@ -66,7 +79,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="cost" class="form-label">Cost</label>
-                                <input type="text" class="form-control" id="cost" name="cost">
+                                <input type="number" class="form-control" id="cost" name="cost">
                             </div>
                             <div class="mb-3">
                                 <label for="date" class="form-label">Date</label>
@@ -85,5 +98,51 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="editFinance" tabindex="-1" aria-labelledby="editFinanceLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="editFinanceLabel">Finance</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="editForm" method="POST">
+                    <div class="modal-body">
+                            @csrf
+                        @method('PUT')
+                            <div class="mb-3">
+                                <label for="item" class="form-label">Item</label>
+                                <input type="text" class="form-control" id="edit_item" name="item">
+                            </div>
+                            <div class="mb-3">
+                                <label for="cost" class="form-label">Cost</label>
+                                <input type="number" class="form-control" id="edit_cost" name="cost">
+                            </div>
+                            <div class="mb-3">
+                                <label for="date" class="form-label">Date</label>
+                                <input type="date" class="form-control" id="edit_date" name="date">
+                            </div>
+                            <div class="mb-3">
+                                <label for="category" class="form-label">Category</label>
+                                <input type="text" class="form-control" id="edit_category" name="category">
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save</button>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
     </div>
+    <script>
+        const edit = (finance) => {
+            document.getElementById('edit_item').value = finance.item;
+            document.getElementById('edit_cost').value = finance.cost;
+            document.getElementById('edit_date').value = finance.date;
+            document.getElementById('edit_category').value = finance.category;
+            document.getElementById('editForm').action = `/finances/${finance.id}`;
+        }
+    </script>
 @endsection
