@@ -5,17 +5,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 
-    <title>UOE</title>
+    <title>UOE Farm Management System</title>
 
     <meta name="description"
-          content="UOE">
-    <meta name="author" content="pixelcave">
-    <meta name="robots" content="noindex, nofollow">
+          content="Welcome to the UOE Farm Management System. Login to manage different aspects of the farm.">
+    <meta name="author" content="Return 0;">
+    <meta name="robots" content="index,follow">
 
     <!-- Icons -->
-    <link rel="shortcut icon" href="{{ asset('media/favicons/favicon.png') }}">
-    <link rel="icon" sizes="192x192" type="image/png" href="{{ asset('media/favicons/favicon-192x192.png') }}">
-    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('media/favicons/apple-touch-icon-180x180.png') }}">
+    <link rel="shortcut icon" href="https://www.uoeld.ac.ke/themes/uoeld/favicon.ico">
+    <link rel="icon" sizes="192x192" type="image/png" href="https://www.uoeld.ac.ke/themes/uoeld/favicon/apple-touch-icon.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://www.uoeld.ac.ke/themes/uoeld/favicon/apple-touch-icon.png">
 
     <!-- Modules -->
     @yield('css')
@@ -104,10 +104,10 @@
                 <!-- Logo -->
                 <a class="fw-semibold text-white tracking-wide" href="/">
             <span class="smini-visible">
-              D<span class="opacity-75">x</span>
+              U<span class="opacity-75">E</span>
             </span>
                     <span class="smini-hidden">
-              Dash<span class="opacity-75">mix</span>
+              UOE <span class="opacity-75">FMS</span>
             </span>
                 </a>
                 <!-- END Logo -->
@@ -373,13 +373,9 @@
     <footer id="page-footer" class="bg-body-light">
         <div class="content py-0">
             <div class="row fs-sm">
-                <div class="col-sm-6 order-sm-2 mb-1 mb-sm-0 text-center text-sm-end">
-                    Crafted with <i class="fa fa-heart text-danger"></i> by <a class="fw-semibold"
-                                                                               href="https://1.envato.market/ydb"
-                                                                               target="_blank">pixelcave</a>
-                </div>
+
                 <div class="col-sm-6 order-sm-1 text-center text-sm-start">
-                    <a class="fw-semibold" href="https://1.envato.market/r6y" target="_blank">Dashmix</a> &copy;
+                    <a class="fw-semibold" href="/" target="_blank">UOE Farm Management System</a> &copy;
                     <span data-toggle="year-copy"></span>
                 </div>
             </div>
