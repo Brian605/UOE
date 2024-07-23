@@ -42,8 +42,20 @@
                         <td>
                             {{ $livestock->health_status }}
                         </td>
-                        <td>
-
+                        <td class="d-flex gap-4">
+                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                                    data-bs-target="#editLivestock" onclick="edit({{ $livestock }})">
+                                Edit
+                            </button>
+                            <div>
+                                <form id="deleteForm{{$livestock->id}}" action="{{ route('livestocks.destroy', $livestock->id) }}"
+                                      method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="button" class="btn btn-danger" onclick="confirmDelete('deleteForm',
+                                    {{ $livestock->id }})">Delete</button>
+                                </form>
+                            </div>
                         </td>
                     </tr>
                 @endforeach
@@ -78,7 +90,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="weight" class="form-label">Weight</label>
-                                <input type="text" class="form-control" id="weight" name="weight">
+                                <input type="number" class="form-control" id="weight" name="weight">
                             </div>
                             <div class="mb-3">
                                 <label for="health_status" class="form-label">Health Status</label>
@@ -93,5 +105,56 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="editLivestock" tabindex="-1" aria-labelledby="editLivestockLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="editLivestockLabel">Modal title</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="editForm"  method="POST">
+                    <div class="modal-body">
+                            @csrf
+                        @method('PUT')
+                            <div class="mb-3">
+                                <label for="type" class="form-label">Type</label>
+                                <input type="text" class="form-control" id="edit_type" name="type">
+                            </div>
+                            <div class="mb-3">
+                                <label for="breed" class="form-label">Breed</label>
+                                <input type="text" class="form-control" id="edit_breed" name="breed">
+                            </div>
+                            <div class="mb-3">
+                                <label for="birth_date" class="form-label">Birth Date</label>
+                                <input type="date" class="form-control" id="edit_birth_date" name="birth_date">
+                            </div>
+                            <div class="mb-3">
+                                <label for="weight" class="form-label">Weight</label>
+                                <input type="number" class="form-control" id="edit_weight" name="weight">
+                            </div>
+                            <div class="mb-3">
+                                <label for="health_status" class="form-label">Health Status</label>
+                                <input type="text" class="form-control" id="edit_health_status" name="health_status">
+                            </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Save </button>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
     </div>
+    <script>
+        function edit(livestock) {
+            document.getElementById('edit_type').value = livestock.type;
+            document.getElementById('edit_breed').value = livestock.breed;
+            document.getElementById('edit_birth_date').value = livestock.birth_date;
+            document.getElementById('edit_weight').value = livestock.weight;
+            document.getElementById('edit_health_status').value = livestock.health_status;
+            document.getElementById('editForm').action = '/livestocks/' + livestock.id;
+        }
+    </script>
 @endsection
