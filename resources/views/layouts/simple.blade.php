@@ -5,16 +5,16 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
 
-  <title>UOE </title>
+  <title>UOE Farm Management System</title>
 
   <meta name="description" content="UOE">
   <meta name="author" content="pixelcave">
   <meta name="robots" content="noindex, nofollow">
 
   <!-- Icons -->
-  <link rel="shortcut icon" href="{{ asset('media/favicons/favicon.png') }}">
-  <link rel="icon" sizes="192x192" type="image/png" href="{{ asset('media/favicons/favicon-192x192.png') }}">
-  <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('media/favicons/apple-touch-icon-180x180.png') }}">
+  <link rel="shortcut icon" href="https://www.uoeld.ac.ke/themes/uoeld/favicon.ico">
+  <link rel="icon" sizes="192x192" type="image/png" href="https://www.uoeld.ac.ke/themes/uoeld/favicon/apple-touch-icon.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="https://www.uoeld.ac.ke/themes/uoeld/favicon/apple-touch-icon.png">
 
   <!-- Modules -->
   @yield('css')
