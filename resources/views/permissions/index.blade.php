@@ -13,7 +13,6 @@
                     <th class="text-center" style="width: 80px;">#</th>
                     <th>Name</th>
                     <th>Guard Name</th>
-                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -25,9 +24,6 @@
                         </td>
                         <td>
                             {{ $permission->guard_name }}
-                        </td>
-                        <td>
-
                         </td>
                     </tr>
                 @endforeach
