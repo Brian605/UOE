@@ -32,9 +32,22 @@
                             {{ $user->email }}
                         </td>
                         <td>
-{{--                            {{ $user->description }}--}}
+                            {{ $user->roles ? $user->roles[0]->name : '' }}
                         </td>
-                        <td>
+                        <td class="d-flex gap-4">
+                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#editUser">
+                                Edit
+                            </button>
+                            <div>
+                                <form id="deleteForm{{$user->id}}" action="{{ route('users.destroy', $user->id) }}"
+                                      method="post">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-danger" onclick="confirmDelete
+                                      ('deleteForm', {{ $user->id }})">Delete</button>
+                                </form>
+                            </div>
+
 
                         </td>
                     </tr>
@@ -77,5 +90,46 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="editUser" tabindex="-1" aria-labelledby="editUserLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="editUserLabel">Users</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="editForm" method="POST">
+                        <div class="modal-body">
+                            @csrf
+                            @method("PUT")
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Name</label>
+                                <input type="text" class="form-control" id="edit_name" name="name">
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="edit_email" name="email">
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="edit_password" name="password">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
+    <script>
+        const edit = (user) => {
+            document.getElementById('edit_name').value = user.name;
+            document.getElementById('edit_email').value = user.email;
+            document.getElementById('edit_password').value = user.password;
+            document.getElementById('editForm').action = `users/${user.id}`;
+        }
+    </script>
 @endsection
