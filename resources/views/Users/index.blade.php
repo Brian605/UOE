@@ -32,7 +32,7 @@
                             {{ $user->email }}
                         </td>
                         <td>
-                            {{ $user->roles ? $user->roles[0]->name : '' }}
+                            {{ $user->roles->count()>0 ? $user->roles[0]->name : '' }}
                         </td>
                         <td class="d-flex gap-4">
                             <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
