@@ -82,7 +82,10 @@
                             </div>
                             <div class="mb-3">
                                 <label for="breed" class="form-label">Breed</label>
-                                <input type="text" class="form-control" id="breed" name="breed">
+                                <select class="form-control" id="breed" name="breed">
+                                    <option value="dairy">Dairy</option>
+                                    <option value="beef">Beef</option>
+                                </select>
                             </div>
                             <div class="mb-3">
                                 <label for="birth_date" class="form-label">Birth Date</label>
@@ -123,7 +126,10 @@
                             </div>
                             <div class="mb-3">
                                 <label for="breed" class="form-label">Breed</label>
-                                <input type="text" class="form-control" id="edit_breed" name="breed">
+                                <select class="form-control" id="edit_breed" name="breed">
+                                    <option value="dairy">Dairy</option>
+                                    <option value="beef">Beef</option>
+                                </select>
                             </div>
                             <div class="mb-3">
                                 <label for="birth_date" class="form-label">Birth Date</label>
