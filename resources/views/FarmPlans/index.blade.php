@@ -18,6 +18,8 @@
                     <th>Objective</th>
                     <th>Layout</th>
                     <th>Infrastructure</th>
+                    <th>Location</th>
+                    <th>Farm Size</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -33,6 +35,12 @@
                         </td>
                         <td>
                             {{ $plan->infrastructure }}
+                        </td>
+                        <td>
+                            {{ $plan->location }}
+                        </td>
+                        <td>
+                            {{ $plan->farm_size }}
                         </td>
                         <td class="d-flex gap-4">
                             <button class="btn btn-secondary" data-bs-toggle="modal"
