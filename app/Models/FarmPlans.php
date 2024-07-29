@@ -12,6 +12,8 @@ class FarmPlans extends Model
     protected $fillable = [
         'objective',
         'layout',
-        'infrastructure'
+        'infrastructure',
+        'location',
+        'farm_size'
     ];
 }

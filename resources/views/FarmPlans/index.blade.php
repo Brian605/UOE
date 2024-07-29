@@ -79,6 +79,14 @@
                                 <label for="infrastructure" class="form-label">Infrastructure</label>
                                 <input type="text" class="form-control" id="infrastructure" name="infrastructure">
                             </div>
+                            <div class="mb-3">
+                                <label for="location" class="form-label">Location</label>
+                                <input type="text" class="form-control" id="location" name="location">
+                            </div>
+                            <div class="mb-3">
+                                <label for="farm_size" class="form-label">Farm Size</label>
+                                <input type="text" class="form-control" id="farm_size" name="farm_size">
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -112,6 +120,14 @@
                             <div class="mb-3">
                                 <label for="infrastructure" class="form-label">Infrastructure</label>
                                 <input type="text" class="form-control" id="edit_infrastructure" name="infrastructure">
+                            </div>
+                            <div class="mb-3">
+                                <label for="location" class="form-label">Location</label>
+                                <input type="text" class="form-control" id="location" name="location">
+                            </div>
+                            <div class="mb-3">
+                                <label for="farm_size" class="form-label">Farm Size</label>
+                                <input type="text" class="form-control" id="farm_size" name="farm_size">
                             </div>
                         </div>
                         <div class="modal-footer">

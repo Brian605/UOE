@@ -25,7 +25,9 @@ class FarmPlansController extends Controller
         $farmPlans = FarmPlans::query()->create([
             'objective' => $request->objective,
             'layout' => $request->layout,
-            'infrastructure' => $request->infrastructure
+            'infrastructure' => $request->infrastructure,
+            'location' => $request->location,
+            'farm_size' => $request->farm_size
         ]);
         if ($farmPlans)
         {
@@ -59,7 +61,9 @@ class FarmPlansController extends Controller
             $updated = $farmPlan->update([
                 'objective' => $request->objective,
                 'layout' => $request->layout,
-                'infrastructure' => $request->infrastructure
+                'infrastructure' => $request->infrastructure,
+                'location' => $request->location,
+                'farm_size' => $request->farm_size
             ]);
             if ($updated)
             {

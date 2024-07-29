@@ -16,6 +16,8 @@ return new class extends Migration
             $table->string("objective");
             $table->string("layout");
             $table->text("infrastructure");
+            $table->text("location");
+            $table->string("farm_size");
             $table->timestamps();
         });
     }
