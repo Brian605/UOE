@@ -28,6 +28,7 @@ class LivestockController extends Controller
             'birth_date' => $request->birth_date,
             'weight' => $request->weight,
             'health_status' => $request->health_status,
+            'milk_produce' => $request->milk_produce
         ]);
         if ($livestock) {
             return to_route('livestocks.index')->with([
@@ -62,6 +63,7 @@ class LivestockController extends Controller
                 'birth_date' => $request->birth_date,
                 'weight' => $request->weight,
                 'health_status' => $request->health_status,
+                'milk_produce' => $request->milk_produce
             ]);
             if ($updated) {
                 return to_route('livestocks.index')->with([

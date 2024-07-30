@@ -15,5 +15,6 @@ class Livestock extends Model
         'birth_date',
         'weight',
         'health_status',
+        'milk_produce'
     ];
 }

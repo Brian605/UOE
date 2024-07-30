@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date("birth_date");
             $table->integer("weight");
             $table->string("health_status");
+            $table->string("milk_produce")->nullable();
             $table->timestamps();
         });
     }

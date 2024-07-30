@@ -108,6 +108,10 @@
                                 <label for="health_status" class="form-label">Health Status</label>
                                 <input type="text" class="form-control" id="health_status" name="health_status">
                             </div>
+                            <div class="mb-3">
+                                <label for="milk_produce" class="form-label">Milk Produce</label>
+                                <input type="text" class="form-control" id="milk_produce" name="milk_produce">
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -152,6 +156,11 @@
                                 <label for="health_status" class="form-label">Health Status</label>
                                 <input type="text" class="form-control" id="edit_health_status" name="health_status">
                             </div>
+
+                            <div class="mb-3">
+                                <label for="edit_milk_produce" class="form-label">Milk Produce</label>
+                                <input type="text" class="form-control" id="edit_milk_produce" name="edit_milk_produce">
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -169,7 +178,21 @@
             document.getElementById('edit_birth_date').value = livestock.birth_date;
             document.getElementById('edit_weight').value = livestock.weight;
             document.getElementById('edit_health_status').value = livestock.health_status;
+            document.getElementById('edit_milk_produce').value = livestock.milk_produce;
             document.getElementById('editForm').action = '/livestocks/' + livestock.id;
+        }
+
+        let breed = document.getElementById('breed')
+        breed.onchange = function () {
+            let breedVal = breed.value
+            let milk_produce = document.getElementById('milk_produce')
+            milk_produce.disabled = breedVal !== 'dairy';
+        }
+        let editBreed = document.getElementById('edit_breed')
+        editBreed.onchange = function () {
+            let breed = editBreed.value
+            let milk_produce = document.getElementById('edit_milk_produce')
+            milk_produce.disabled = breed !== 'dairy';
         }
     </script>
 @endsection
