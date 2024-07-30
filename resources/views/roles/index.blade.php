@@ -17,6 +17,7 @@
                     <th class="text-center" style="width: 80px;">#</th>
                     <th>Name</th>
                     <th>Guard</th>
+                    <th>Permissions</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -29,6 +30,11 @@
                         </td>
                         <td>
                             {{ $role->guard_name }}
+                        </td>
+                        <td>
+                            @foreach($role->permissions as $permission)
+                                <span class="badge bg-primary">{{ $permission->name }}</span>
+                            @endforeach
                         </td>
                         <td class="d-flex gap-4">
                             <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
@@ -71,7 +77,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="permissions" class="form-label">Permissions</label>
-                                <select class="form-select" id="permissions" name="permissions" multiple>
+                                <select class="form-select" id="permissions" name="permissions[]" multiple>
                                     @foreach($permissions as $permission)
                                         <option value="{{ $permission->name }}">{{ $permission->name }}</option>
                                     @endforeach
@@ -104,7 +110,7 @@
                             </div>
                             <div class="mb-3">
                                 <label for="permissions" class="form-label">Permissions</label>
-                                <select class="form-select" id="edit_permissions" name="permissions" multiple>
+                                <select class="form-select" id="edit_permissions" name="permissions[]" multiple>
                                     @foreach($permissions as $permission)
                                         <option value="{{ $permission->name }}">{{ $permission->name }}</option>
                                     @endforeach
