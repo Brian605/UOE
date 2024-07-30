@@ -76,6 +76,37 @@ class InventoryController extends Controller
         $inventory = Inventory::query()->findOrFail($id);
         if ($inventory)
         {
+            if ($request->type === 'increase')
+            {
+                $inventory->update([
+                    'quantity' => $inventory->quantity + $request->quantity,
+                    'approved_by' => Auth::user()->name,
+                ]);
+                return to_route('inventory.index')->with([
+                    "message" => "Inventory updated successfully",
+                    "success" => true
+                ]);
+
+            }
+            if ($request->type === 'decrease')
+            {
+                if ($inventory->quantity < $request->quantity)
+                {
+                    return back()->with([
+                        "message" => "Quantity to reduce is more than available quantity",
+                        "success" => false
+                    ]);
+                }
+                $inventory->update([
+                    'quantity' => $inventory->quantity - $request->quantity,
+                    'approved_by' => Auth::user()->name,
+                ]);
+                return to_route('inventory.index')->with([
+                    "message" => "Inventory updated successfully",
+                    "success" => true
+                ]);
+            }
+
             $updated = $inventory->update([
                 'item' => $request->item,
                 'quantity' => $request->quantity,

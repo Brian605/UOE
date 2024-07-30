@@ -47,6 +47,18 @@
                                         data-bs-target="#editInventory" onclick="edit({{ $inventory }})">
                                     Edit
                                 </button>
+{{--                                Add Quantity--}}
+                                <button type="button" class="btn btn-outline-success" data-bs-toggle="modal"
+                                        data-bs-target="#alterQuantity" onclick="alterQuantity({{ $inventory }},
+                                        'increase')">
+                                    Add Quantity
+                                </button>
+{{--                                remove Quantity--}}
+                                <button type="button" class="btn btn-outline-warning" data-bs-toggle="modal"
+                                        data-bs-target="#alterQuantity" onclick="alterQuantity({{ $inventory }},
+                                        'decrease')">
+                                    Remove Quantity
+                                </button>
                             @endcan
                             @can('inventory.destroy')
                                 <div>
@@ -143,13 +155,45 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="alterQuantity" tabindex="-1" aria-labelledby="alterQuantityLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="alterQuantityLabel">Edit Inventory</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <form id="editQuantityForm" method="POST">
+                        <div class="modal-body">
+                            @csrf
+                            @method('PUT')
+                            <input type="hidden" name="type" id="alterQuantityType" value="">
+                            <div class="mb-3">
+                                <label for="edit_quantity" class="form-label">Quantity</label>
+                                <input type="number" class="form-control" id="edit_quantity" name="quantity">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Update</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
     <script>
-        function edit(livestock) {
-            document.getElementById('edit_name').value = livestock.name;
-            document.getElementById('edit_quantity').value = livestock.quantity;
-            document.getElementById('edit_unit_id').value = livestock.unit_id;
-            document.getElementById('editForm').action = '/inventory/' + livestock.id;
+        function edit(inventory) {
+            document.getElementById('edit_name').value = inventory.name;
+            document.getElementById('edit_quantity').value = inventory.quantity;
+            document.getElementById('edit_unit_id').value = inventory.unit_id;
+            document.getElementById('editForm').action = '/inventory/' + inventory.id;
+        }
+
+        function alterQuantity(inventory, type) {
+            document.getElementById('edit_quantity').value = inventory.quantity;
+            document.getElementById('alterQuantityType').value = type;
+            document.getElementById('editQuantityForm').action = '/inventory/' + inventory.id;
         }
 
     </script>
