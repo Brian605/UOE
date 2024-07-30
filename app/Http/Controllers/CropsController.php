@@ -90,7 +90,7 @@ class CropsController extends Controller
     public function destroy(string $id)
     {
         $crop = Crops::query()->findOrFail($id);
-        if ($crop)
+        if ($crop->delete())
         {
             return to_route('crops.index')->with([
                 "message" => "Deleted successfully",

@@ -45,14 +45,24 @@
                         <td>
                             {{ $crop->quantity }}
                         </td>
-                        <td>
+                        <td class="d-flex gap-4">
                             @can('crops.edit')
                                 <button class="btn btn-secondary" data-bs-toggle="modal"
                                         data-bs-target="#editCrop" onclick="editForm({{ $crop }})">Edit
                                 </button>
                             @endcan
                             @can('crops.destroy')
-                                <button class="btn btn-danger">Delete</button>
+                                    <div>
+                                        <form id="deleteForm{{$crop->id}}"
+                                              action="{{ route('crops.destroy', $crop->id) }}"
+                                              method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="button" class="btn btn-danger" onclick="confirmDelete('deleteForm',
+                                    {{ $crop->id }})">Delete
+                                            </button>
+                                        </form>
+                                    </div>
                             @endcan
                         </td>
                     </tr>
