@@ -37,7 +37,7 @@ class UserController extends Controller
 
         if ($user)
         {
-            $user->assignRole([$request->roleId]);
+            $user->assignRole([$request->role]);
             return to_route('users.index')->with([
                 'message' => 'User created successfully',
                 "success" => true
@@ -65,6 +65,7 @@ class UserController extends Controller
         $user = User::query()->findOrFail($id);
         if ($user->update($request->all()))
         {
+            $user->syncRoles([$request->role]);
             return to_route('users.index')->with([
                 'message' => 'User updated successfully',
                 "success" => true
