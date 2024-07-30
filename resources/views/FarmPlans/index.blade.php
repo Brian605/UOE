@@ -6,10 +6,12 @@
             <h3 class="block-title">Farm plans</h3>
         </div>
         <div class="block-content block-content-full">
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#farmPlans">
-                Add Farm Plans
-            </button>
+            @can('farm-plans.index')
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#farmPlans">
+                    Add Farm Plans
+                </button>
+            @endcan
             <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/tables_datatables.js -->
             <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
                 <thead>
@@ -43,18 +45,24 @@
                             {{ $plan->farm_size }}
                         </td>
                         <td class="d-flex gap-4">
-                            <button class="btn btn-secondary" data-bs-toggle="modal"
-                                    data-bs-target="#editFarmPlans" onclick="edit({{ $plan }})">Edit
-                            </button>
-                            <div>
-                                <form id="deleteForm{{$plan->id}}" action="{{ route('farm-plans.destroy', $plan->id) }}"
-                                      method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $plan->id }})
-                                    ">Delete</button>
-                                </form>
-                            </div>
+                            @can('farm-plans.edit')
+                                <button class="btn btn-secondary" data-bs-toggle="modal"
+                                        data-bs-target="#editFarmPlans" onclick="edit({{ $plan }})">Edit
+                                </button>
+                            @endcan
+                            @can('farm-plans.destroy')
+                                <div>
+                                    <form id="deleteForm{{$plan->id}}"
+                                          action="{{ route('farm-plans.destroy', $plan->id) }}"
+                                          method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $plan->id }})
+                                    ">Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            @endcan
                         </td>
                     </tr>
                 @endforeach
@@ -155,7 +163,7 @@
             document.getElementById('editForm').action = `/farm-plans/${farmPlan.id}`;
         }
         const confirmDelete = (id) => {
-            if (confirm('Are you sure you want to delete this record?') ===true) {
+            if (confirm('Are you sure you want to delete this record?') === true) {
                 document.getElementById(`deleteForm${id}`).submit();
             }
         }

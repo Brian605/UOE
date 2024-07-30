@@ -6,10 +6,12 @@
             <h3 class="block-title">Research</h3>
         </div>
         <div class="block-content block-content-full">
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createResearch">
-                Add Research
-            </button>
+            @can('research.index')
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createResearch">
+                    Add Research
+                </button>
+            @endcan
             <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/tables_datatables.js -->
             <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
                 <thead>
@@ -47,19 +49,25 @@
                             {{ $research->status }}
                         </td>
                         <td class="d-flex gap-4">
-                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
-                                    data-bs-target="#editResearch" onclick="edit({{ $research }})">
-                                Edit
-                            </button>
-                            <div>
-                                <form id="deleteForm{{$research->id}}" action="{{ route('research.destroy', $research->id) }}"
-                                      method="post">
-                                      @csrf
-                                      @method('DELETE')
-                                      <button type="submit" class="btn btn-danger" onclick="confirmDelete
-                                      ('deleteForm', {{ $research->id }})">Delete</button>
-                                </form>
-                            </div>
+                            @can('research.edit')
+                                <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                                        data-bs-target="#editResearch" onclick="edit({{ $research }})">
+                                    Edit
+                                </button>
+                            @endcan
+                            @can('research.destroy')
+                                <div>
+                                    <form id="deleteForm{{$research->id}}"
+                                          action="{{ route('research.destroy', $research->id) }}"
+                                          method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger" onclick="confirmDelete
+                                      ('deleteForm', {{ $research->id }})">Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            @endcan
 
                         </td>
                     </tr>
@@ -79,7 +87,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form action="{{ route('research.store') }}" method="POST">
-                    <div class="modal-body">
+                        <div class="modal-body">
                             @csrf
                             <div class="mb-3">
                                 <label for="department" class="form-label">Department</label>
@@ -108,12 +116,12 @@
                                     <option value="inactive">Inactive</option>
                                 </select>
                             </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </div>
-                </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -126,9 +134,9 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form id="editForm" method="POST">
-                    <div class="modal-body">
+                        <div class="modal-body">
                             @csrf
-                        @method("PUT")
+                            @method("PUT")
                             <div class="mb-3">
                                 <label for="department" class="form-label">Department</label>
                                 <input type="text" class="form-control" id="edit_department" name="department">
@@ -156,12 +164,12 @@
                                     <option value="inactive">Inactive</option>
                                 </select>
                             </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </div>
-                </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

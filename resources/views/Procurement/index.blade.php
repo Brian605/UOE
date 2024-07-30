@@ -6,10 +6,13 @@
             <h3 class="block-title">Procurement</h3>
         </div>
         <div class="block-content block-content-full">
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createProcurement">
-                Add Procurement
-            </button>
+            @can('procurements.create')
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                        data-bs-target="#createProcurement">
+                    Add Procurement
+                </button>
+            @endcan
             <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/tables_datatables.js -->
             <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
                 <thead>
@@ -51,19 +54,26 @@
                             {{ $procurement->date }}
                         </td>
                         <td class="d-flex gap-4">
-                            <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
-                                    data-bs-target="#editProcurement" onclick="edit({{ $procurement }})">
-                                Edit
-                            </button>
-                            <div>
-                                <form id="deleteForm{{$procurement->id}}" action="{{ route('procurements.destroy', $procurement->id) }}"
-                                      method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="button" class="btn btn-danger" onclick="confirmDelete('deleteForm',
-                                    {{ $procurement->id }})">Delete</button>
-                                </form>
-                            </div>
+                            @can('procurements.edit')
+                                <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                                        data-bs-target="#editProcurement" onclick="edit({{ $procurement }})">
+                                    Edit
+                                </button>
+                            @endcan
+                            @can('procurements.destroy')
+                                <div>
+                                    <form id="deleteForm{{$procurement->id}}"
+                                          action="{{ route('procurements.destroy', $procurement->id) }}"
+                                          method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-danger" onclick="confirmDelete('deleteForm',
+                                    {{ $procurement->id }})">Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            @endcan
+
 
                         </td>
                     </tr>
@@ -112,13 +122,13 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save </button>
+                            <button type="submit" class="btn btn-primary">Save</button>
                         </div>
 
                     </form>
+                </div>
             </div>
         </div>
-    </div>
         <div class="modal fade" id="editProcurement" tabindex="-1" aria-labelledby="editProcurementLabel"
              aria-hidden="true">
             <div class="modal-dialog">
@@ -158,13 +168,13 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save </button>
+                            <button type="submit" class="btn btn-primary">Save</button>
                         </div>
 
                     </form>
+                </div>
             </div>
         </div>
-    </div>
         <script>
             function edit(procurement) {
                 document.getElementById('edit_item').value = procurement.item;

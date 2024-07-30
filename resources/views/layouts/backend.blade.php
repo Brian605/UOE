@@ -152,6 +152,7 @@
             <div class="content-side content-side-full">
                 <ul class="nav-main">
                     @foreach($links as $link)
+                        @can($link['url'])
                         <li class="nav-main-item">
                             <a class="nav-main-link{{ $link['active'] ? ' active' : '' }}"
                                href="{{ route($link['url']) }}">
@@ -160,6 +161,7 @@
 {{--                                <span class="nav-main-link-badge badge rounded-pill bg-primary">5</span>--}}
                             </a>
                         </li>
+                        @endcan
                     @endforeach
                 </ul>
             </div>

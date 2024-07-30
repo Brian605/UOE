@@ -6,10 +6,13 @@
             <h3 class="block-title">Finances</h3>
         </div>
         <div class="block-content block-content-full">
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createFinance">
-                Create Finance
-            </button>
+            @can('finances.create')
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createFinance">
+                    Create Finance
+                </button>
+            @endcan
+
             <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/tables_datatables.js -->
             <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
                 <thead>
@@ -39,19 +42,25 @@
                             {{ $finance->category }}
                         </td>
                         <td class="d-flex gap-4">
-                            <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#editFinance" onclick="edit({{ $finance }})">
-                                Edit
-                            </button>
-                            <div>
-                                <form id="deleteForm{{$finance->id}}" action="{{ route('finances.destroy', $finance->id) }}"
-                                      method="post">
-                                    @csrf
-                                    @method('DELETE')
-                                    <button type="button" class="btn btn-danger" onclick="confirmDelete('deleteForm',
-                                    {{ $finance->id }})">Delete</button>
-                                </form>
-                            </div>
+                            @can('finances.edit')
+                                <button type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#editFinance" onclick="edit({{ $finance }})">
+                                    Edit
+                                </button>
+                            @endcan
+                            @can('finances.destroy')
+                                <div>
+                                    <form id="deleteForm{{$finance->id}}"
+                                          action="{{ route('finances.destroy', $finance->id) }}"
+                                          method="post">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="button" class="btn btn-danger" onclick="confirmDelete('deleteForm',
+                                    {{ $finance->id }})">Delete
+                                        </button>
+                                    </form>
+                                </div>
+                            @endcan
 
                         </td>
                     </tr>
@@ -71,7 +80,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form action="{{ route('finances.store') }}" method="POST">
-                    <div class="modal-body">
+                        <div class="modal-body">
                             @csrf
                             <div class="mb-3">
                                 <label for="item" class="form-label">Item</label>
@@ -89,12 +98,12 @@
                                 <label for="category" class="form-label">Category</label>
                                 <input type="text" class="form-control" id="category" name="category">
                             </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </div>
-                </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -107,9 +116,9 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form id="editForm" method="POST">
-                    <div class="modal-body">
+                        <div class="modal-body">
                             @csrf
-                        @method('PUT')
+                            @method('PUT')
                             <div class="mb-3">
                                 <label for="item" class="form-label">Item</label>
                                 <input type="text" class="form-control" id="edit_item" name="item">
@@ -126,12 +135,12 @@
                                 <label for="category" class="form-label">Category</label>
                                 <input type="text" class="form-control" id="edit_category" name="category">
                             </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save</button>
-                    </div>
-                </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>

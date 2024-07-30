@@ -6,10 +6,13 @@
             <h3 class="block-title">Crops</h3>
         </div>
         <div class="block-content block-content-full">
-            <!-- Button trigger modal -->
-            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createCrop">
-                Create Crop
-            </button>
+            @can('crops.index')
+                <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createCrop">
+                    Create Crop
+                </button>
+            @endcan
+
             <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/tables_datatables.js -->
             <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
                 <thead>
@@ -28,7 +31,7 @@
                     <tr>
                         <td class="text-center">{{ $index+1 }}</td>
                         <td class="fw-semibold">
-                           {{ $crop->name }}
+                            {{ $crop->name }}
                         </td>
                         <td>
                             {{ $crop->type }}
@@ -43,9 +46,14 @@
                             {{ $crop->quantity }}
                         </td>
                         <td>
-                            <button class="btn btn-secondary" data-bs-toggle="modal"
-                                    data-bs-target="#editCrop" onclick="editForm({{ $crop }})">Edit</button>
-                            <button class="btn btn-danger">Delete</button>
+                            @can('crops.edit')
+                                <button class="btn btn-secondary" data-bs-toggle="modal"
+                                        data-bs-target="#editCrop" onclick="editForm({{ $crop }})">Edit
+                                </button>
+                            @endcan
+                            @can('crops.destroy')
+                                <button class="btn btn-danger">Delete</button>
+                            @endcan
                         </td>
                     </tr>
                 @endforeach
@@ -63,7 +71,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form action="{{ route('crops.store') }}" method="post">
-                    <div class="modal-body">
+                        <div class="modal-body">
                             @csrf
                             <div class="mb-3">
                                 <label for="name" class="form-label">Name</label>
@@ -75,7 +83,8 @@
                             </div>
                             <div class="mb-3">
                                 <label for="planting_date" class="form-label">Planting Date</label>
-                                <input type="date" class="form-control" id="planting_date" name="planting_date" required>
+                                <input type="date" class="form-control" id="planting_date" name="planting_date"
+                                       required>
                             </div>
                             <div class="mb-3">
                                 <label for="harvest_date" class="form-label">Harvest Date</label>
@@ -85,12 +94,12 @@
                                 <label for="quantity" class="form-label">Quantity</label>
                                 <input type="number" class="form-control" id="quantity" name="quantity" required>
                             </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save </button>
-                    </div>
-                </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -102,7 +111,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form id="editForm" method="post">
-                    <div class="modal-body">
+                        <div class="modal-body">
                             @csrf
                             @method('PUT')
                             <div class="mb-3">
@@ -127,12 +136,12 @@
                                 <label for="quantity" class="form-label">Quantity</label>
                                 <input type="number" class="form-control" id="edit_quantity" name="quantity" required>
                             </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save </button>
-                    </div>
-                </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save</button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
