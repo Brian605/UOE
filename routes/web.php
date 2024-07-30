@@ -30,6 +30,8 @@ Route::middleware(['auth', 'permission'])->group(function (){
         "users" => \App\Http\Controllers\UserController::class,
         "permissions" => \App\Http\Controllers\PermissionsController::class,
         "roles" => \App\Http\Controllers\RolesController::class,
+        "units" => \App\Http\Controllers\UnitsController::class,
+        "inventory" => \App\Http\Controllers\InventoryController::class,
     ]);
     Route::post('logout', [\App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 });

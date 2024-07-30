@@ -72,6 +72,18 @@
             "icon" => "fa fa-search"
         ],
         [
+            "name" =>  "Units",
+            "active" => request()->routeIs('units.index'),
+            "url" => "units.index",
+            "icon" => "fa fa-unity"
+        ],
+        [
+            "name" =>  "Inventory",
+            "active" => request()->routeIs('inventory.index'),
+            "url" => "inventory.index",
+            "icon" => "fa fa-product-hunt"
+        ],
+        [
             "name" =>  "Users",
             "active" => request()->routeIs('users.index'),
             "url" => "users.index",
