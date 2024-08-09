@@ -1,19 +1,20 @@
-@extends('layouts.backend')
-
+@extends('Admin.backend')
+@section('css')
+    <!-- Page JS Plugins CSS -->
+    <link rel="stylesheet" href="{{ asset('js/plugins/datatables-bs5/css/dataTables.bootstrap5.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('js/plugins/datatables-buttons-bs5/css/buttons.bootstrap5.min.css') }}">
+@endsection
 @section('content')
     <div class="block block-rounded">
         <div class="block-header block-header-default">
             <h3 class="block-title">Farm plans</h3>
+            <button type="button" class="btn btn-primary block-options" data-bs-toggle="modal" data-bs-target="#farmPlans">
+                Add Farm Plans
+            </button>
         </div>
         <div class="block-content block-content-full">
-            @can('farm-plans.index')
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#farmPlans">
-                    Add Farm Plans
-                </button>
-            @endcan
             <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/tables_datatables.js -->
-            <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
+            <table class="table table-bordered table-striped js-dataTable-buttons">
                 <thead>
                 <tr>
                     <th class="text-center" style="width: 80px;">#</th>
@@ -26,6 +27,7 @@
                 </tr>
                 </thead>
                 <tbody>
+                @php $farmPlans=\App\Models\FarmPlans::all(); @endphp
                 @foreach($farmPlans as $index => $plan)
                     <tr>
                         <td class="text-center">{{ $index+1 }}</td>
@@ -45,24 +47,11 @@
                             {{ $plan->farm_size }}
                         </td>
                         <td class="d-flex gap-4">
-                            @can('farm-plans.edit')
-                                <button class="btn btn-secondary" data-bs-toggle="modal"
-                                        data-bs-target="#editFarmPlans" onclick="edit({{ $plan }})">Edit
-                                </button>
-                            @endcan
-                            @can('farm-plans.destroy')
-                                <div>
-                                    <form id="deleteForm{{$plan->id}}"
-                                          action="{{ route('farm-plans.destroy', $plan->id) }}"
-                                          method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="button" class="btn btn-danger" onclick="confirmDelete({{ $plan->id }})
-                                    ">Delete
-                                        </button>
-                                    </form>
-                                </div>
-                            @endcan
+                            <button class="btn btn-secondary" data-bs-toggle="modal"
+                                    data-bs-target="#editFarmPlans" onclick="edit('{{ base64_encode($plan->toJson()) }}')">Edit
+                            </button>
+                            <a href="/farm/plans/delete/{{$plan->id}}" class="btn btn-danger">Delete
+                            </a>
                         </td>
                     </tr>
                 @endforeach
@@ -79,29 +68,29 @@
                         <h1 class="modal-title fs-5" id="farmPlansLabel">Add Farm Plan</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="{{ route('farm-plans.store') }}" method="post">
+                    <form action="/farm/plans/new" method="post">
                         <div class="modal-body">
                             @csrf
                             <div class="mb-3">
                                 <label for="objective" class="form-label">Objective</label>
-                                <textarea type="text" class="form-control" id="objective" name="objective"
+                                <textarea type="text" class="form-control" name="objective"
                                           rows="4"></textarea>
                             </div>
                             <div class="mb-3">
                                 <label for="layout" class="form-label">Layout</label>
-                                <input type="text" class="form-control" id="layout" name="layout">
+                                <input type="text" class="form-control" name="layout">
                             </div>
                             <div class="mb-3">
                                 <label for="infrastructure" class="form-label">Infrastructure</label>
-                                <input type="text" class="form-control" id="infrastructure" name="infrastructure">
+                                <input type="text" class="form-control" name="infrastructure">
                             </div>
                             <div class="mb-3">
                                 <label for="location" class="form-label">Location</label>
-                                <input type="text" class="form-control" id="location" name="location">
+                                <input type="text" class="form-control"  name="location">
                             </div>
                             <div class="mb-3">
                                 <label for="farm_size" class="form-label">Farm Size</label>
-                                <input type="text" class="form-control" id="farm_size" name="farm_size">
+                                <input type="text" class="form-control" name="farm_size">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -120,10 +109,10 @@
                         <h1 class="modal-title fs-5" id="editFarmPlansLabel">Edit Farm Plan</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form id="editForm" method="post">
+                    <form id="editForm" method="post" action="/farm/plans/edit">
                         <div class="modal-body">
                             @csrf
-                            @method('PUT')
+                            <input type="hidden" name="id" id="planId">
                             <div class="mb-3">
                                 <label for="objective" class="form-label">Objective</label>
                                 <textarea type="text" class="form-control" id="edit_objective" name="objective"
@@ -156,16 +145,28 @@
         </div>
     </div>
     <script>
-        const edit = (farmPlan) => {
+        const edit = (farmPlanBase64) => {
+            let farmPlan=JSON.parse(atob(farmPlanBase64));
+            document.getElementById('planId').value=farmPlan.id;
+            document.getElementById('farm_size').value=farmPlan.farm_size
             document.getElementById('edit_objective').value = farmPlan.objective;
             document.getElementById('edit_layout').value = farmPlan.layout;
+            document.getElementById('location').value = farmPlan.location;
             document.getElementById('edit_infrastructure').value = farmPlan.infrastructure;
-            document.getElementById('editForm').action = `/farm-plans/${farmPlan.id}`;
         }
-        const confirmDelete = (id) => {
-            if (confirm('Are you sure you want to delete this record?') === true) {
-                document.getElementById(`deleteForm${id}`).submit();
-            }
-        }
+
     </script>
 @endsection
+@push('scripts')
+    <!-- Page JS Plugins -->
+    <script src="{{ asset('js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-buttons/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-buttons-bs5/js/buttons.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-buttons-jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-buttons-pdfmake/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-buttons-pdfmake/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-buttons/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-buttons/buttons.html5.min.js') }}"></script>
+    @vite(['resources/js/pages/datatables.js'])
+@endpush

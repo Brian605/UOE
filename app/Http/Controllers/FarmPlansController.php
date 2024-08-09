@@ -31,31 +31,25 @@ class FarmPlansController extends Controller
         ]);
         if ($farmPlans)
         {
-            return to_route('farm-plans.index')->with([
+            return back()->with([
                 "message" => "Farm plans added successfully",
-                "success" => true
+                "type" => 'success'
             ]);
         }
         return back()->with([
            "message" => "An error occurred",
-           "success" => false
+           "type" => 'error'
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(FarmPlans $farmPlans)
-    {
-        //
-    }
+
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        $farmPlan = FarmPlans::query()->findOrFail($id);
+        $farmPlan = FarmPlans::query()->findOrFail($request->id);
         if ($farmPlan)
         {
             $updated = $farmPlan->update([
@@ -67,14 +61,14 @@ class FarmPlansController extends Controller
             ]);
             if ($updated)
             {
-                return to_route('farm-plans.index')->with([
+                return back()->with([
                    "message" => "Updated successfully",
-                   "success" => true
+                   "type" => 'success'
                 ]);
             }
             return back()->with([
                "message" => "An error occurred",
-               "success" => false
+               "type" => 'error'
             ]);
         }
         return back()->with([
@@ -93,14 +87,14 @@ class FarmPlansController extends Controller
         {
             if ($farmPlans->delete())
             {
-                return to_route('farm-plans.index')->with([
+                return back()->with([
                     "message" => "Farm plan deleted successfully",
-                    "success" => true
+                    "type" => 'success'
                 ]);
             }
             return back()->with([
                "message" => "An error occurred",
-               "success" => false
+               "type" => 'error'
             ]);
         }
         return back()->with([

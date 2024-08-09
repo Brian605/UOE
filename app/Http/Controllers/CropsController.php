@@ -3,19 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Crops;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class CropsController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        return view('crops.index', [
-            'crops' => Crops::all()
-        ]);
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -25,57 +17,50 @@ class CropsController extends Controller
         $crops = Crops::query()->create([
             'name' => $request->name,
             'type' => $request->type,
-            'planting_date' => $request->planting_date,
-            'harvest_date' => $request->harvest_date,
+            'planting_date' => Carbon::createFromFormat('Y-m-d',$request->planting_date),
+            'harvest_date' => Carbon::createFromFormat('Y-m-d',$request->harvest_date),
             'quantity' => $request->quantity,
         ]);
         if ($crops)
         {
-            return to_route('crops.index')->with([
+            return redirect('/crops/lists')->with([
                 "message" => "Crops successfully created",
-                "success" => true
+                "type" => 'success'
             ]);
         }
         return back()->with([
             "message" => "An error occurred",
-            "success" => false
+            "type" => 'error'
         ]);
 
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Crops $crops)
-    {
-
-    }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        $crops = Crops::query()->findOrFail($id);
+        $crops = Crops::query()->findOrFail($request->cropId);
         if ($crops)
         {
             $updated = $crops->update([
                 'name' => $request->name,
                 'type' => $request->type,
-                'planting_date' => $request->planting_date,
-                'harvest_date' => $request->harvest_date,
+                'planting_date' => Carbon::createFromFormat('Y-m-d',$request->planting_date),
+                'harvest_date' => Carbon::createFromFormat('Y-m-d',$request->harvest_date),
                 'quantity' => $request->quantity,
             ]);
             if ($updated)
             {
-                return to_route('crops.index')->with([
+                return redirect('/crops/lists')->with([
                    "message" => "Crops updated successfully",
-                   "success" => false
+                   "type" => 'success'
                 ]);
             }
             return back()->with([
-                "message" => "Crops not updated successfully",
-                "success" => false
+                "message" => "Crops not updated",
+                "type" => 'error'
             ]);
         }
         return back()->with([
@@ -92,14 +77,14 @@ class CropsController extends Controller
         $crop = Crops::query()->findOrFail($id);
         if ($crop->delete())
         {
-            return to_route('crops.index')->with([
+            return back()->with([
                 "message" => "Deleted successfully",
-                "success" => true
+                "type" => 'success'
             ]);
         }
         return back()->with([
             "message" => "An error occurred",
-            "success" => false
+            "type" => 'error'
         ]);
     }
 }

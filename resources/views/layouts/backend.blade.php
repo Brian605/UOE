@@ -37,8 +37,8 @@
         ],
         [
             "name" =>  "Crops",
-            "active" => request()->routeIs('crops.index'),
-            "url" => "crops.index",
+            "active" => request()->routeIs('Crops.index'),
+            "url" => "Crops.index",
             "icon" => "fa fa-tree"
         ],
         [
