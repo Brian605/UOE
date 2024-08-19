@@ -7,6 +7,23 @@ use Illuminate\Http\Request;
 class Navigator extends Controller
 {
     //
+    function receipts()
+    {
+      return view('Finance.receipts');
+    }
+    function income()
+    {
+        return view('Finance.income');
+
+    }
+    function listExpenditures()
+    {
+      return view('Finance.expenditures');
+    }
+    function listInventoryCategory()
+    {
+      return view('inventory.category');
+    }
     function listLivestock()
     {
       return view('Livestock.index');

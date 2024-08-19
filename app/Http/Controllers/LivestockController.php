@@ -3,20 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Livestock;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class LivestockController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        return view('Livestock.index', [
-            "livestocks" => Livestock::all()
-        ]);
-    }
-
     /**
      * Store a newly created resource in storage.
      */
@@ -25,60 +16,55 @@ class LivestockController extends Controller
         $livestock = Livestock::query()->create([
             'type' => $request->type,
             'breed' => $request->breed,
-            'birth_date' => $request->birth_date,
+            'category'=> $request->category,
+            'birth_date' => Carbon::createFromFormat('Y-m-d',$request->birth_date),
             'weight' => $request->weight,
             'health_status' => $request->health_status,
             'milk_produce' => $request->milk_produce
         ]);
         if ($livestock) {
-            return to_route('livestocks.index')->with([
+            return back()->with([
                 "message" => "Livestock created successfully",
-                "success" => true
+                "type" => 'success'
             ]);
         }
         return back()->with([
             "message" => "An error occurred",
-            "success" => false
+            "type" => 'error'
         ]);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Livestock $livestock)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        $livestock = Livestock::query()->findOrFail($id);
+        $livestock = Livestock::query()->findOrFail($request->livestockId);
         if ($livestock) {
             $updated = $livestock->update([
                 'type' => $request->type,
+                'category' => $request->category,
                 'breed' => $request->breed,
                 'birth_date' => $request->birth_date,
                 'weight' => $request->weight,
                 'health_status' => $request->health_status,
-                'milk_produce' => $request->milk_produce
+                'milk_produce' => $request->edit_milk_produce
             ]);
             if ($updated) {
-                return to_route('livestocks.index')->with([
-                    "message" => "Livestock created successfully",
-                    "success" => true
+                return redirect('/livestock/list')->with([
+                    "message" => "Livestock updated successfully",
+                    "type" => 'success'
                 ]);
             }
             return back()->with([
                 "message" => "An error occurred",
-                "success" => false
+                "type" => 'error'
             ]);
         }
         return back()->with([
             "message" => "An error occurred",
-            "success" => false
+            "type" => 'error'
         ]);
     }
 
@@ -92,19 +78,19 @@ class LivestockController extends Controller
         {
             if ($livestock->delete())
             {
-                return to_route('livestocks.index')->with([
+                return back()->with([
                    "message" => "Livestock deleted successfully",
                     "success" => true
                 ]);
             }
             return back()->with([
                 "message" => "An error occurred",
-                "success" => false
+                "type" => 'success'
             ]);
         }
         return back()->with([
             "message" => "An error occurred. Please try again",
-            "success" => false
+            "type" => 'error'
         ]);
     }
 }

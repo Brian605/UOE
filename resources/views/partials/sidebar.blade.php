@@ -129,25 +129,25 @@
 
                 <li class="nav-main-heading">Finance</li>
                 <li class="nav-main-item">
-                    <a class="nav-main-link{{ request()->is('finance/list') ? ' active' : '' }} " href="/">
+                    <a class="nav-main-link{{ request()->is('finance/expenses') ? ' active' : '' }} " href="/finance/expenses">
                         <i class="nav-main-link-icon fa fa-wallet"></i>
                         <span class="nav-main-link-name">Expenditures</span>
                     </a>
                 </li>
                 <li class="nav-main-item">
-                    <a class="nav-main-link{{ request()->is('finance/income') ? ' active' : '' }} " href="/">
+                    <a class="nav-main-link{{ request()->is('finance/income') ? ' active' : '' }} " href="/finance/income">
                         <i class="nav-main-link-icon fa fa-money-bills"></i>
                         <span class="nav-main-link-name">Income</span>
                     </a>
                 </li>
                 <li class="nav-main-item">
-                    <a class="nav-main-link{{ request()->is('finance/receipts') ? ' active' : '' }} " href="/">
+                    <a class="nav-main-link{{ request()->is('finance/receipts') ? ' active' : '' }} " href="/finance/receipts">
                         <i class="nav-main-link-icon fa fa-receipt"></i>
                         <span class="nav-main-link-name">Receipts</span>
                     </a>
                 </li>
                 <li class="nav-main-item">
-                    <a class="nav-main-link{{ request()->is('finance/budgeting') ? ' active' : '' }} " href="/">
+                    <a class="nav-main-link{{ request()->is('finance/budgeting') ? ' active' : '' }} " href="/finance/budgeting">
                         <i class="nav-main-link-icon fa fa-piggy-bank"></i>
                         <span class="nav-main-link-name">Budgeting</span>
                     </a>
@@ -167,13 +167,13 @@
                     </a>
                 </li>
                 <li class="nav-main-item">
-                    <a class="nav-main-link{{ request()->is('inventory/categories') ? ' active' : '' }} " href="/">
+                    <a class="nav-main-link{{ request()->is('inventory/categories') ? ' active' : '' }} " href="/inventory/categories">
                         <i class="nav-main-link-icon fa fa-boxes"></i>
                         <span class="nav-main-link-name">Item Categories</span>
                     </a>
                 </li>
                 <li class="nav-main-item">
-                    <a class="nav-main-link{{ request()->is('inventory/categories') ? ' active' : '' }} " href="/">
+                    <a class="nav-main-link{{ request()->is('inventory/uoms') ? ' active' : '' }} " href="/inventory/uoms">
                         <i class="nav-main-link-icon fa fa-ruler"></i>
                         <span class="nav-main-link-name">Units Of Measurement</span>
                     </a>

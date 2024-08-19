@@ -5,10 +5,15 @@ use App\Http\Controllers\CropCategoryController;
 use App\Http\Controllers\CropsController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\FarmPlansController;
+use App\Http\Controllers\FinanceRecordController;
+use App\Http\Controllers\IncomeController;
+use App\Http\Controllers\ItemCategoryController;
 use App\Http\Controllers\LivestockBreedController;
 use App\Http\Controllers\LivestockCategoryController;
+use App\Http\Controllers\LivestockController;
 use App\Http\Controllers\LivestockTypesController;
 use App\Http\Controllers\Navigator;
+use App\Http\Controllers\ReceiptController;
 use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 
@@ -40,6 +45,10 @@ Route::get('/livestock/types',[Navigator::class,'livestockTypes'])->middleware('
 Route::get('/livestock/categories',[Navigator::class,'livestockCategories'])->middleware('auth');
 Route::get('/livestock/breeds',[Navigator::class,'livestockBreeds'])->middleware('auth');
 Route::get('/livestock/list',[Navigator::class,'listLivestock'])->middleware('auth');
+Route::get('/inventory/categories',[Navigator::class,'listInventoryCategory'])->middleware('auth');
+Route::get('/finance/expenses',[Navigator::class,'listExpenditures'])->middleware('auth');
+Route::get('/finance/income',[Navigator::class,'income'])->middleware('auth');
+Route::get('/finance/receipts',[Navigator::class,'receipts'])->middleware('auth');
 Route::get('/password/forget',[Navigator::class,'forgetPassword'])->middleware('guest');
 Route::get('/password/reset/{token}',[Navigator::class,'resetPassword'])->middleware('guest');
 
@@ -75,7 +84,28 @@ Route::get('/livestock/types/delete/{id}',[LivestockTypesController::class,'dest
 Route::post('/livestock/category/new',[LivestockCategoryController::class,'store'])->middleware('auth');
 Route::post('/livestock/category/edit',[LivestockCategoryController::class,'update'])->middleware('auth');
 Route::get('/livestock/category/delete/{id}',[LivestockCategoryController::class,'destroy'])->middleware('auth');
+Route::get('/livestock/categories/fetchAll',[LivestockCategoryController::class,'getCategories'])->middleware('guest');
 
 Route::post('/livestock/breed/new',[LivestockBreedController::class,'store'])->middleware('auth');
 Route::post('/livestock/breed/edit',[LivestockBreedController::class,'update'])->middleware('auth');
 Route::get('/livestock/breed/delete/{id}',[LivestockBreedController::class,'destroy'])->middleware('auth');
+
+Route::post('/livestock/new',[LivestockController::class,'store'])->middleware('auth');
+Route::post('/livestock/edit',[LivestockController::class,'update'])->middleware('auth')->name('livestock.edit');
+Route::get('/livestock/delete/{id}',[LivestockController::class,'destroy'])->middleware('auth');
+
+Route::post('/item/category/new',[ItemCategoryController::class,'store'])->middleware('auth');
+Route::post('/item/category/edit',[ItemCategoryController::class,'update'])->middleware('auth');
+Route::get('/item/category/delete/{id}',[ItemCategoryController::class,'destroy'])->middleware('auth');
+
+Route::post('/expense/item/new',[FinanceRecordController::class,'addExpense'])->middleware('auth');
+Route::post('/expense/item/edit',[FinanceRecordController::class,'update'])->middleware('auth');
+Route::get('/expense/item/delete/{id}',[FinanceRecordController::class,'destroy'])->middleware('auth');
+
+Route::post('/income/item/new',[IncomeController::class,'storeIncome'])->middleware('auth');
+Route::post('/income/item/edit',[IncomeController::class,'updateIncome'])->middleware('auth');
+Route::get('/income/item/delete/{id}',[IncomeController::class,'deleteIncome'])->middleware('auth');
+
+Route::post('/receipt/item/new',[ReceiptController::class,'storeReceipt'])->middleware('auth');
+Route::post('/receipt/item/edit',[ReceiptController::class,'updateReceipt'])->middleware('auth');
+Route::get('/receipt/item/delete/{id}',[ReceiptController::class,'deleteReceipt'])->middleware('auth');

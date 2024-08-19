@@ -1,24 +1,24 @@
-@extends('layouts.backend')
-
+@extends('Admin.backend')
+@section('css')
+    <link rel="stylesheet" href="{{ asset('js/plugins/datatables-bs5/css/dataTables.bootstrap5.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('js/plugins/datatables-buttons-bs5/css/buttons.bootstrap5.min.css') }}">
+@endsection
 @section('content')
     <div class="block block-rounded">
         <div class="block-header block-header-default">
-            <h3 class="block-title">Livestock's</h3>
+            <h3 class="block-title">Manage Livestock</h3>
+            <button type="button" class="btn btn-primary block-options" data-bs-toggle="modal" data-bs-target="#createLivestock">
+                Add Livestock
+            </button>
         </div>
         <div class="block-content block-content-full">
-            @can('livestocks.create')
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createLivestock">
-                    Add Livestock
-                </button>
-            @endcan
-
             <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/tables_datatables.js -->
             <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
                 <thead>
                 <tr>
                     <th class="text-center" style="width: 80px;">#</th>
                     <th>Type</th>
+                    <th>Category</th>
                     <th>Breed</th>
                     <th>Birth date</th>
                     <th>Weight</th>
@@ -27,14 +27,18 @@
                 </tr>
                 </thead>
                 <tbody>
+                @php $livestocks=\App\Models\Livestock::all(); @endphp
                 @foreach($livestocks as $index => $livestock)
                     <tr>
                         <td class="text-center">{{ $index+1 }}</td>
                         <td class="fw-semibold">
-                            {{ $livestock->type }}
+                            {{ \App\Models\LivestockTypes::find($livestock->type)->name}}
                         </td>
                         <td>
-                            {{ $livestock->breed }}
+                            {{\App\Models\LivestockCategory::find($livestock->category)->name}}
+                        </td>
+                        <td>
+                            {{\App\Models\LivestockBreed::find($livestock->breed)->name}}
                         </td>
                         <td>
                             {{ $livestock->birth_date }}
@@ -46,25 +50,12 @@
                             {{ $livestock->health_status }}
                         </td>
                         <td class="d-flex gap-4">
-                            @can('livestocks.edit')
-                                <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
-                                        data-bs-target="#editLivestock" onclick="edit({{ $livestock }})">
-                                    Edit
-                                </button>
-                            @endcan
-                            @can('livestocks.destroy')
-                                <div>
-                                    <form id="deleteForm{{$livestock->id}}"
-                                          action="{{ route('livestocks.destroy', $livestock->id) }}"
-                                          method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="button" class="btn btn-danger" onclick="confirmDelete('deleteForm',
-                                    {{ $livestock->id }})">Delete
-                                        </button>
-                                    </form>
-                                </div>
-                            @endcan
+                            <button type="button" class="btn btn-secondary"
+                                    onclick="edit('{{base64_encode($livestock->toJson())}}')">
+                                Edit
+                            </button>
+                            <a href="/livestock/delete/{{$livestock->id}}" class="btn btn-danger">Delete
+                            </a>
                         </td>
                     </tr>
                 @endforeach
@@ -79,38 +70,70 @@
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="createLivestockLabel">Modal title</h1>
+                        <h1 class="modal-title fs-5" id="createLivestockLabel">New Livestock</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="{{ route('livestocks.store') }}" method="POST">
+                    <form action="/livestock/new" method="POST">
                         <div class="modal-body">
                             @csrf
                             <div class="mb-3">
                                 <label for="type" class="form-label">Type</label>
-                                <input type="text" class="form-control" id="type" name="type">
+                                <select type="text" class="form-control form-select"  name="type">
+                                    @php $f=true; @endphp
+                                    @foreach(\App\Models\LivestockTypes::all() as $type)
+                                        @if($f)
+                                            <option selected value="{{$type->id}}">{{$type->name}}</option>
+                                            @php $f=false; @endphp
+                                        @else
+                                            <option  value="{{$type->id}}">{{$type->name}}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="breed" class="form-label">Category</label>
+                                <select type="text" class="form-control form-select"  name="category">
+                                    @php $f=true; @endphp
+                                    @foreach(\App\Models\LivestockCategory::all() as $type)
+                                        @if($f)
+                                            <option selected value="{{$type->id}}">{{$type->name}}</option>
+                                            @php $f=false; @endphp
+                                        @else
+                                            <option  value="{{$type->id}}">{{$type->name}}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+
                             </div>
                             <div class="mb-3">
                                 <label for="breed" class="form-label">Breed</label>
-                                <select class="form-control" id="breed" name="breed">
-                                    <option value="dairy">Dairy</option>
-                                    <option value="beef">Beef</option>
+                                <select type="text" class="form-control form-select"  name="breed">
+                                    @php $f=true; @endphp
+                                    @foreach(\App\Models\LivestockBreed::all() as $type)
+                                        @if($f)
+                                            <option selected value="{{$type->id}}">{{$type->name}}</option>
+                                            @php $f=false; @endphp
+                                        @else
+                                            <option  value="{{$type->id}}">{{$type->name}}</option>
+                                        @endif
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="mb-3">
                                 <label for="birth_date" class="form-label">Birth Date</label>
-                                <input type="date" class="form-control" id="birth_date" name="birth_date">
+                                <input type="date" class="form-control" name="birth_date">
                             </div>
                             <div class="mb-3">
                                 <label for="weight" class="form-label">Weight</label>
-                                <input type="number" class="form-control" id="weight" name="weight">
+                                <input type="number" class="form-control" name="weight">
                             </div>
                             <div class="mb-3">
                                 <label for="health_status" class="form-label">Health Status</label>
-                                <input type="text" class="form-control" id="health_status" name="health_status">
+                                <input type="text" class="form-control" name="health_status">
                             </div>
                             <div class="mb-3">
                                 <label for="milk_produce" class="form-label">Milk Produce</label>
-                                <input type="text" class="form-control" id="milk_produce" name="milk_produce">
+                                <input type="text" class="form-control" name="milk_produce">
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -121,27 +144,58 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="editLivestock" tabindex="-1" aria-labelledby="editLivestockLabel"
-             aria-hidden="true">
+        <div class="modal fade" id="editLives">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="editLivestockLabel">Modal title</h1>
+                        <h1 class="modal-title fs-5">Edit Livestock</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form id="editForm" method="POST">
-                        <div class="modal-body">
+                    <div class="modal-body">
+                        <form action="{{route('livestock.edit')}}" method="post">
                             @csrf
-                            @method('PUT')
+                            <input type="hidden" id="livestockId" name="livestockId">
                             <div class="mb-3">
                                 <label for="type" class="form-label">Type</label>
-                                <input type="text" class="form-control" id="edit_type" name="type">
+                                <select type="text" class="form-control form-select" id="type" name="type">
+                                    @php $f=true; @endphp
+                                    @foreach(\App\Models\LivestockTypes::all() as $type)
+                                        @if($f)
+                                            <option selected value="{{$type->id}}">{{$type->name}}</option>
+                                            @php $f=false; @endphp
+                                        @else
+                                            <option  value="{{$type->id}}">{{$type->name}}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="breed" class="form-label">Category</label>
+                                <select type="text" class="form-control form-select" id="category"  name="category">
+                                    @php $f=true; @endphp
+                                    @foreach(\App\Models\LivestockCategory::all() as $type)
+                                        @if($f)
+                                            <option selected value="{{$type->id}}">{{$type->name}}</option>
+                                            @php $f=false; @endphp
+                                        @else
+                                            <option  value="{{$type->id}}">{{$type->name}}</option>
+                                        @endif
+                                    @endforeach
+                                </select>
+
                             </div>
                             <div class="mb-3">
                                 <label for="breed" class="form-label">Breed</label>
-                                <select class="form-control" id="edit_breed" name="breed">
-                                    <option value="dairy">Dairy</option>
-                                    <option value="beef">Beef</option>
+                                <select class="form-control form-select" id="breed" name="breed">
+                                    @php $f=true; @endphp
+                                    @foreach(\App\Models\LivestockBreed::all() as $type)
+                                        @if($f)
+                                            <option selected value="{{$type->id}}">{{$type->name}}</option>
+                                            @php $f=false; @endphp
+                                        @else
+                                            <option  value="{{$type->id}}">{{$type->name}}</option>
+                                        @endif
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="mb-3">
@@ -161,38 +215,50 @@
                                 <label for="edit_milk_produce" class="form-label">Milk Produce</label>
                                 <input type="text" class="form-control" id="edit_milk_produce" name="edit_milk_produce">
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <button type="submit" class="btn btn-primary">Save</button>
-                        </div>
-                    </form>
+                            <div class="justify-content-evenly">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Save</button>
+                            </div>
+                        </form>
+
+                    </div>
                 </div>
             </div>
         </div>
     </div>
     <script>
-        function edit(livestock) {
-            document.getElementById('edit_type').value = livestock.type;
-            document.getElementById('edit_breed').value = livestock.breed;
+        function edit(livestockBase64) {
+            let livestock=JSON.parse(atob(livestockBase64));
+           let types=document.getElementById('type').children;
+            for (let type of types) {
+                if (type.value==livestock.type){
+                    type.selected=true;
+                }
+            }
+            $("#livestockId").val(livestock.id);
+            document.getElementById('category').value = livestock.category;
+            document.getElementById('breed').value = livestock.breed;
             document.getElementById('edit_birth_date').value = livestock.birth_date;
             document.getElementById('edit_weight').value = livestock.weight;
             document.getElementById('edit_health_status').value = livestock.health_status;
             document.getElementById('edit_milk_produce').value = livestock.milk_produce;
-            document.getElementById('editForm').action = '/livestocks/' + livestock.id;
+            $("#editLives").modal('show')
         }
 
-        let breed = document.getElementById('breed')
-        breed.onchange = function () {
-            let breedVal = breed.value
-            let milk_produce = document.getElementById('milk_produce')
-            milk_produce.disabled = breedVal !== 'dairy';
-        }
-        let editBreed = document.getElementById('edit_breed')
-        editBreed.onchange = function () {
-            let breed = editBreed.value
-            let milk_produce = document.getElementById('edit_milk_produce')
-            milk_produce.disabled = breed !== 'dairy';
-        }
     </script>
 @endsection
+@push('scripts')
+
+    <!-- Page JS Plugins -->
+    <script src="{{ asset('js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-buttons/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-buttons-bs5/js/buttons.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-buttons-jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-buttons-pdfmake/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-buttons-pdfmake/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-buttons/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-buttons/buttons.html5.min.js') }}"></script>
+    @vite(['resources/js/pages/datatables.js'])
+
+@endpush

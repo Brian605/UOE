@@ -12,6 +12,7 @@ class Livestock extends Model
     protected $fillable = [
         'type',
         'breed',
+        'category',
         'birth_date',
         'weight',
         'health_status',
