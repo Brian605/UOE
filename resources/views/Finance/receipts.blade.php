@@ -168,7 +168,7 @@
                 month=month.toString();
             }
 
-            let d=`${month}-${date}-${dt.getFullYear()}`;
+            let d=`${dt.getFullYear()}-${month}-${date}`;
             $("#dptId").val(dpt.id);
             $("#ref").val(dpt.ref_number);
             $("#desc").text(dpt.description);

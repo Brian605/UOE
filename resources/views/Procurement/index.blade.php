@@ -1,18 +1,20 @@
-@extends('layouts.backend')
-
+@extends('Admin.backend')
+@section('css')
+    <link rel="stylesheet" href="{{ asset('js/plugins/datatables-bs5/css/dataTables.bootstrap5.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('js/plugins/datatables-buttons-bs5/css/buttons.bootstrap5.min.css') }}">
+@endsection
 @section('content')
     <div class="block block-rounded">
         <div class="block-header block-header-default">
             <h3 class="block-title">Procurement</h3>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary block-options" data-bs-toggle="modal"
+                    data-bs-target="#createProcurement">
+                Add Procurement
+            </button>
         </div>
         <div class="block-content block-content-full">
-            @can('procurements.create')
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal"
-                        data-bs-target="#createProcurement">
-                    Add Procurement
-                </button>
-            @endcan
+
             <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/tables_datatables.js -->
             <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
                 <thead>
@@ -29,7 +31,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($procurements as $index => $procurement)
+                @foreach(\App\Models\Procurement::all() as $index => $procurement)
                     <tr>
                         <td class="text-center">{{ $index+1 }}</td>
                         <td class="fw-semibold">
@@ -42,7 +44,7 @@
                             {{ $procurement->cost }}
                         </td>
                         <td>
-                            {{ $procurement->type }}
+                            {{ \App\Models\ItemCategory::find($procurement->type)->name }}
                         </td>
                         <td>
                             {{ $procurement->payment_mode }}
@@ -54,25 +56,12 @@
                             {{ $procurement->date }}
                         </td>
                         <td class="d-flex gap-4">
-                            @can('procurements.edit')
-                                <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
+                               <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
                                         data-bs-target="#editProcurement" onclick="edit({{ $procurement }})">
                                     Edit
                                 </button>
-                            @endcan
-                            @can('procurements.destroy')
-                                <div>
-                                    <form id="deleteForm{{$procurement->id}}"
-                                          action="{{ route('procurements.destroy', $procurement->id) }}"
-                                          method="post">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="button" class="btn btn-danger" onclick="confirmDelete('deleteForm',
-                                    {{ $procurement->id }})">Delete
-                                        </button>
-                                    </form>
-                                </div>
-                            @endcan
+                            <a href="/procurement/delete/{{$procurement->id}}" class="btn btn-danger">Delete
+                            </a>
 
 
                         </td>
@@ -92,7 +81,7 @@
                         <h1 class="modal-title fs-5" id="createProcurementLabel">Add Procurement</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="{{ route('procurements.store') }}" method="post">
+                    <form action="/procurement/new" method="post">
                         <div class="modal-body">
                             @csrf
                             <div class="mb-3">
@@ -109,7 +98,11 @@
                             </div>
                             <div class="mb-3">
                                 <label for="type" class="form-label">Type</label>
-                                <input type="text" class="form-control" id="type" name="type">
+                                <select class="form-control form-select" id="type" name="type" required>
+                                    @foreach(\App\Models\ItemCategory::all() as $type)
+                                        <option value="{{$type->id}}">{{$type->name}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="mb-3">
                                 <label for="payment_mode" class="form-label">Payment Mode</label>
@@ -155,7 +148,11 @@
                             </div>
                             <div class="mb-3">
                                 <label for="type" class="form-label">Type</label>
-                                <input type="text" class="form-control" id="edit_type" name="type">
+                                <select class="form-control form-select" id="edit_type" name="type" required>
+                                    @foreach(\App\Models\ItemCategory::all() as $type)
+                                        <option value="{{$type->id}}">{{$type->name}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="mb-3">
                                 <label for="payment_mode" class="form-label">Payment Mode</label>
@@ -183,7 +180,19 @@
                 document.getElementById('edit_type').value = procurement.type;
                 document.getElementById('edit_payment_mode').value = procurement.payment_mode;
                 document.getElementById('edit_transaction_id').value = procurement.transaction_id;
-                document.getElementById('editForm').action = '/procurements/' + procurement.id;
+                document.getElementById('editForm').action = '/procurement/edit/' + procurement.id;
             }
         </script>
 @endsection
+        @push('scripts')
+            <script src="{{ asset('js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+            <script src="{{ asset('js/plugins/datatables-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+            <script src="{{ asset('js/plugins/datatables-buttons/dataTables.buttons.min.js') }}"></script>
+            <script src="{{ asset('js/plugins/datatables-buttons-bs5/js/buttons.bootstrap5.min.js') }}"></script>
+            <script src="{{ asset('js/plugins/datatables-buttons-jszip/jszip.min.js') }}"></script>
+            <script src="{{ asset('js/plugins/datatables-buttons-pdfmake/pdfmake.min.js') }}"></script>
+            <script src="{{ asset('js/plugins/datatables-buttons-pdfmake/vfs_fonts.js') }}"></script>
+            <script src="{{ asset('js/plugins/datatables-buttons/buttons.print.min.js') }}"></script>
+            <script src="{{ asset('js/plugins/datatables-buttons/buttons.html5.min.js') }}"></script>
+    @vite(['resources/js/pages/datatables.js'])
+    @endpush

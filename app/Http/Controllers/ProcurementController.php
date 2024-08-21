@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Procurement;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ProcurementController extends Controller
@@ -27,13 +28,13 @@ class ProcurementController extends Controller
             'quantity' => $request->quantity,
             'cost' => $request->cost,
             'type' => $request->type,
-            'date' => now(),
+            'date' => Carbon::now(),
             'payment_mode' => $request->payment_mode,
             'transaction_id' => $request->transaction_id
         ]);
         if ($procurement)
         {
-            return to_route('procurements.index')->with([
+            return back()->with([
                 "message" => "Procurements created Successfully",
                 "success" => true
             ]);
@@ -74,13 +75,13 @@ class ProcurementController extends Controller
                 'quantity' => $request->quantity,
                 'cost' => $request->cost,
                 'type' => $request->type,
-                'date' => now(),
+                'date' => Carbon::now(),
                 'payment_mode' => $request->payment_mode,
                 'transaction_id' => $request->transaction_id
             ]);
             if ($updated)
             {
-                return to_route('procurements.index')->with([
+                return back()->with([
                     "message" => "Procurements updated successfully",
                     "success" => true
                 ]);

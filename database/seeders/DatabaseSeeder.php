@@ -30,7 +30,6 @@ class DatabaseSeeder extends Seeder
         Role::create(['name' => 'supervisor']);
         Role::create(['name' => 'livestock']);
 
-
         $u=User::create([
            'name'=>'Farm Admin',
            'email'=>'admin@uoefms.ac.ke',

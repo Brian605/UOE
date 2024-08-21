@@ -6,10 +6,10 @@
 @section('content')
     <div class="block block-rounded">
         <div class="block-header block-header-default">
-            <h3 class="block-title">Research</h3>
+            <h3 class="block-title">Blog Posts</h3>
             <!-- Button trigger modal -->
-            <a type="button" class="btn btn-primary block-options" href="/research/new">
-                Add Project
+            <a type="button" class="btn btn-primary block-options" href="/blogs/new">
+                Add Blog Post
             </a>
         </div>
         <div class="block-content block-content-full">
@@ -17,51 +17,47 @@
             <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
                 <thead>
                 <tr>
-                    <th class="text-center" style="width: 80px;">#</th>
-                    <th>Department</th>
+                    <th>#</th>
+                    <th>Date Posted</th>
                     <th>Title</th>
                     <th>Description</th>
-                    <th>Duration</th>
-                    <th>Sponsors</th>
-                    <th>Cost</th>
-                    <th>Status</th>
-                    <th>Actions</th>
+                    <th>Category</th>
+                    <th>Tags</th>
+                    <th>Action</th>
+
                 </tr>
                 </thead>
                 <tbody>
-                @foreach(\App\Models\Research::all() as $index => $research)
-                    <tr>
-                        <td class="text-center">{{ $index+1 }}</td>
-                        <td class="fw-semibold">
-                            {{ \App\Models\ResearchCategory::find($research->category_id)->name }}
+                @php
+                    $causes=\App\Models\Blog::all();
+                @endphp
+                @foreach($causes as $cause)
+                    <tr id="{{$cause->id}}">
+                        <td>
+                            {{$cause->id}}
                         </td>
                         <td>
-                            {{ $research->title }}
+                            {{date('d/m/Y',strtotime($cause->created_at))}}
                         </td>
                         <td>
-                            {!! substr($research->description,0,60)  !!}...
+                            {{$cause->title}}
                         </td>
                         <td>
-                            {{ $research->duration }}
+                            {{$cause->description}}
                         </td>
                         <td>
-                            {{ implode(',',$research->sponsors )}}
+                            {{$cause->cause}}
                         </td>
                         <td>
-                            Ksh.{{$research->cost}}
+                            {{implode(',',$cause->tags)}}
                         </td>
+
+
+
                         <td>
-                            {{ $research->status }}
-                        </td>
-                        <td class="d-flex gap-4">
-                            <a  class="btn btn-info"  href="/research/view/{{$research->id}}">
-                                View
-                            </a>
-                                <a  class="btn btn-secondary"  href="/research/edit/{{$research->id}}">
-                                    Edit
-                                </a>
-                               <a  class="btn btn-danger" href="/research/delete/{{$research->id}}">Delete
-                                </a>
+                            <a href="/blogs/details/{{$cause->id}}" class="btn btn-sm btn-info"><span class="fa fa-eye"></span> View </a>
+                            <a href="/blogs/edit/{{$cause->id}}" class="btn btn-sm btn-warning"><span class="fa fa-edit"></span> Edit</a>
+                            <a href="/blogs/delete/{{$cause->id}}" class="btn btn-sm btn-danger"><span class="fa fa-trash"></span> Delete</a>
 
                         </td>
                     </tr>

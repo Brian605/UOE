@@ -11,12 +11,13 @@ $categories = \App\Models\ItemCategory::all();
     <div class="block block-rounded">
         <div class="block-header block-header-default">
             <h3 class="block-title">Inventory</h3>
+            <button type="button" class="btn btn-primary block-options" data-bs-toggle="modal" data-bs-target="#createInventory">
+                Add Inventory
+            </button>
         </div>
         <div class="block-content block-content-full">
                 <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createInventory">
-                    Add Inventory
-                </button>
+
 
             <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/tables_datatables.js -->
             <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
@@ -41,7 +42,7 @@ $categories = \App\Models\ItemCategory::all();
                             {{ $inventory->quantity }}
                         </td>
                         <td>
-                            {{ $inventory->unit->unit }}
+                            {{ $inventory->unit->name }}
                         </td>
                         <td>
                             {{ $inventory->user->name }}
@@ -106,7 +107,7 @@ $categories = \App\Models\ItemCategory::all();
                                 <label for="unit_id" class="form-label">Unit</label>
                                 <select class="form-control" id="unit_id" name="unit_id">
                                     @foreach($units as $unit)
-                                        <option value="{{ $unit->id }}">{{ $unit->unit }}</option>
+                                        <option value="{{ $unit->id }}">{{ $unit->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -215,3 +216,15 @@ $categories = \App\Models\ItemCategory::all();
 
     </script>
 @endsection
+@push('scripts')
+    <script src="{{ asset('js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-buttons/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-buttons-bs5/js/buttons.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-buttons-jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-buttons-pdfmake/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-buttons-pdfmake/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-buttons/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-buttons/buttons.html5.min.js') }}"></script>
+    @vite(['resources/js/pages/datatables.js'])
+@endpush

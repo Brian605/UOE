@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Research;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ResearchController extends Controller
@@ -22,16 +23,24 @@ class ResearchController extends Controller
      */
     public function store(Request $request)
     {
+        $start=Carbon::createFromFormat('Y-m-d', $request->start_date);
+        $end=Carbon::createFromFormat('Y-m-d', $request->end_date);
+        $duration=$start->diffInMonths($end);
         $research = Research::query()->create([
-            'department' => $request->department,
-            'title' => $request->title,
-            'description' => $request->description,
-            'start_date' => $request->start_date,
-            'end_date' => $request->end_date,
-            'status' => $request->status
+            'title'=>$request->title,
+            'description'=>$request->description,
+            'banner'=>$request->file('banner')->store('research', 'public'),
+            'published'=>true,
+            'sponsors'=>explode(',',$request->sponsors),
+            'duration'=>$duration.' Months',
+            'start_date'=>$start,
+            'end_date'=>$end,
+            'status'=>$request->status,
+            'category_id'=>$request->category_id,
+            'cost'=>$request->cost,
         ]);
         if ($research) {
-            return to_route('research.index')->with([
+            return redirect('/research')->with([
                 "message" => "Research created successfully",
                 "success" => true
             ]);
@@ -55,18 +64,30 @@ class ResearchController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $research = Research::query()->findOrFail($id);
-        if ($research) {
+        $research = Research::findOrFail($id);
+        $start=Carbon::createFromFormat('Y-m-d', $request->start_date);
+        $end=Carbon::createFromFormat('Y-m-d', $request->end_date);
+        $duration=$start->diffInMonths($end);
+        if ($research !=null) {
             $update = $research->update([
-                'department' => $request->department,
-                'title' => $request->title,
-                'description' => $request->description,
-                'start_date' => $request->start_date,
-                'end_date' => $request->end_date,
-                'status' => $request->status
+                'title'=>$request->title,
+                'description'=>$request->description,
+                'published'=>true,
+                'sponsors'=>explode(',',$request->sponsors),
+                'duration'=>$duration.' Months',
+                'start_date'=>$start,
+                'end_date'=>$end,
+                'status'=>$request->status,
+                'category_id'=>$request->category_id,
+                'cost'=>$request->cost,
             ]);
+            if ($request->banner != null) {
+                Research::query()->findOrFail($id)->update([
+                    'banner'=>$request->file('banner')->store('research', 'public'),
+                ]);
+            }
             if ($update) {
-                return to_route('research.index')->with([
+                return redirect('/research')->with([
                     "message" => "Research updated successfully",
                     "success" => true
                 ]);
@@ -90,7 +111,7 @@ class ResearchController extends Controller
         $research = Research::query()->findOrFail($id);
         if ($research) {
             if ($research->delete()) {
-                return to_route('research.index')->with([
+                return redirect('/research')->with([
                     "message" => "Research deleted successfully",
                     "success" => true
                 ]);

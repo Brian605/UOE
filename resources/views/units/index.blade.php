@@ -8,12 +8,13 @@
     <div class="block block-rounded">
         <div class="block-header block-header-default">
             <h3 class="block-title">Crops</h3>
+            <!-- Button trigger modal -->
+            <button type="button" class="btn btn-primary block-options" data-bs-toggle="modal" data-bs-target="#createUnits">
+                Create Units
+            </button>
+
         </div>
         <div class="block-content block-content-full">
-                <!-- Button trigger modal -->
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createUnits">
-                    Create Units
-                </button>
 
             <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/tables_datatables.js -->
             <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
@@ -126,3 +127,15 @@
         }
     </script>
 @endsection
+@push('scripts')
+    <script src="{{ asset('js/plugins/datatables/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-bs5/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-buttons/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-buttons-bs5/js/buttons.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-buttons-jszip/jszip.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-buttons-pdfmake/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-buttons-pdfmake/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-buttons/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('js/plugins/datatables-buttons/buttons.html5.min.js') }}"></script>
+    @vite(['resources/js/pages/datatables.js'])
+@endpush

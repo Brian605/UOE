@@ -13,7 +13,7 @@ class Inventory extends Model
         "name",
         "unit_id",
         "quantity",
-        "approved_by"
+        "approved_by",
     ];
 
     public function unit()

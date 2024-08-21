@@ -164,7 +164,7 @@
 
                 @hasanyrole('Super Admin|admin|procurement')
                 <li class="nav-main-item">
-                    <a class="nav-main-link{{ request()->is('procurement/list') ? ' active' : '' }} " href="/">
+                    <a class="nav-main-link{{ request()->is('procurement/list') ? ' active' : '' }} " href="/procurement/list">
                         <i class="nav-main-link-icon fa fa-clipboard-list"></i>
                         <span class="nav-main-link-name">Procurement</span>
                     </a>
@@ -187,7 +187,6 @@
                     </a>
                 </li>
                 @hasanyrole('Super Admin|admin|procurement|storage')
-
                 <li class="nav-main-item">
                     <a class="nav-main-link{{ request()->is('inventory/uoms') ? ' active' : '' }} " href="/inventory/uoms">
                         <i class="nav-main-link-icon fa fa-ruler"></i>
@@ -199,10 +198,17 @@
                 <hr class="w-100"/>
 
                 @hasanyrole('Super Admin|admin|research')
+                <li class="nav-main-heading">Research</li>
                 <li class="nav-main-item">
-                    <a class="nav-main-link{{ request()->is('research') ? ' active' : '' }} " href="/">
+                    <a class="nav-main-link{{ request()->is('research') ? ' active' : '' }} " href="/research">
                         <i class="nav-main-link-icon fa fa-project-diagram"></i>
                         <span class="nav-main-link-name">Research Projects</span>
+                    </a>
+                </li>
+                <li class="nav-main-item">
+                    <a class="nav-main-link{{ request()->is('research/categories') ? ' active' : '' }} " href="/research/categories">
+                        <i class="nav-main-link-icon fa fa-network-wired"></i>
+                        <span class="nav-main-link-name">Project Categories</span>
                     </a>
                 </li>
                 @endhasanyrole
@@ -210,7 +216,7 @@
 
                 @hasanyrole('Super Admin|admin|finance')
                 <li class="nav-main-item">
-                    <a class="nav-main-link{{ request()->is('reports') ? ' active' : '' }} " href="/">
+                    <a class="nav-main-link{{ request()->is('reports') ? ' active' : '' }} " href="/reports">
                         <i class="nav-main-link-icon fa fa-chart-line"></i>
                         <span class="nav-main-link-name">Reports</span>
                     </a>
@@ -219,19 +225,19 @@
 
                  <li class="nav-main-heading">News and Media</li>
                 <li class="nav-main-item">
-                    <a class="nav-main-link{{ request()->is('/admin/blogs') ? ' active' : '' }} " href="/">
+                    <a class="nav-main-link{{ request()->is('/admin/blogs') ? ' active' : '' }} " href="/admin/blogs">
                         <i class="nav-main-link-icon fa fa-book"></i>
                         <span class="nav-main-link-name">Blogs</span>
                     </a>
                 </li>
                 <li class="nav-main-item">
-                    <a class="nav-main-link{{ request()->is('/admin/gallery') ? ' active' : '' }} " href="/">
+                    <a class="nav-main-link{{ request()->is('admin/gallery') ? ' active' : '' }} " href="/admin/gallery">
                         <i class="nav-main-link-icon fa fa-images"></i>
                         <span class="nav-main-link-name">Gallery</span>
                     </a>
                 </li>
                 <li class="nav-main-item">
-                    <a class="nav-main-link{{ request()->is('/admin/downloads') ? ' active' : '' }} " href="/">
+                    <a class="nav-main-link{{ request()->is('admin/downloads') ? ' active' : '' }} " href="/admin/downloads">
                         <i class="nav-main-link-icon fa fa-download"></i>
                         <span class="nav-main-link-name">Downloads</span>
                     </a>

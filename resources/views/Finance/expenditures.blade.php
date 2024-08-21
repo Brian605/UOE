@@ -189,7 +189,7 @@
                 month=month.toString();
             }
 
-            let d=`${month}-${date}-${dt.getFullYear()}`;
+            let d=`${dt.getFullYear()}-${month}-${date}`;
             $("#dptId").val(dpt.id);
             $("#category").val(dpt.category_id);
             $("#item").val(dpt.item);
@@ -197,7 +197,7 @@
             document.getElementById('tdat').type='text';
             document.getElementById('tdat').value=d;
             document.getElementById('tdat').type='date';
-            $("#reason").val(dpt.reason);
+            $("#reason").val(dpt.description);
             $("#editDepartment").modal('show')
         }
     </script>

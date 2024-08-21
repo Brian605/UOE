@@ -5,8 +5,9 @@
     <title>Admin|UOE FMS</title>
 
     <meta name="description" content="UOE">
-    <meta name="author" content="pixelcave">
+    <meta name="author" content="Brian Omondi">
     <meta name="robots" content="noindex, nofollow">
+    <meta name="csrf-token" content="{{csrf_token()}}">
 
     <!-- Icons -->
     <link rel="shortcut icon" href="https://www.uoeld.ac.ke/themes/uoeld/favicon.ico">

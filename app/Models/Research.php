@@ -10,11 +10,22 @@ class Research extends Model
     use HasFactory;
 
     protected $fillable = [
-        'department',
         'title',
         'description',
+        'banner',
+        'published',
+        'sponsors',
+        'duration',
         'start_date',
         'end_date',
-        'status'
+        'status',
+        'category_id',
+        'cost'
+    ];
+    protected $casts=[
+        'start_date' => 'date',
+        'end_date' => 'date',
+        'published' => 'boolean',
+        'sponsors' => 'array',
     ];
 }

@@ -1,19 +1,27 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\CropCategoryController;
 use App\Http\Controllers\CropsController;
 use App\Http\Controllers\DepartmentController;
+use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\FarmPlansController;
 use App\Http\Controllers\FinanceRecordController;
+use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\IncomeController;
+use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\ItemCategoryController;
 use App\Http\Controllers\LivestockBreedController;
 use App\Http\Controllers\LivestockCategoryController;
 use App\Http\Controllers\LivestockController;
 use App\Http\Controllers\LivestockTypesController;
 use App\Http\Controllers\Navigator;
+use App\Http\Controllers\ProcurementController;
 use App\Http\Controllers\ReceiptController;
+use App\Http\Controllers\ResearchCategoryController;
+use App\Http\Controllers\ResearchController;
+use App\Http\Controllers\UnitsController;
 use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 
@@ -53,7 +61,16 @@ Route::get('/password/forget',[Navigator::class,'forgetPassword'])->middleware('
 Route::get('/password/reset/{token}',[Navigator::class,'resetPassword'])->middleware('guest');
 Route::get("/inventory/uoms", [Navigator::class, "uoms"])->middleware("auth");
 Route::get("/inventory/list", [Navigator::class, "inventoryList"])->middleware("auth");
-
+Route::get("/procurement/list", [Navigator::class, "procurementList"])->middleware("auth");
+Route::get("/research", [Navigator::class, "research"])->middleware("auth");
+Route::get("/research/new", [Navigator::class, "newProject"])->middleware("auth");
+Route::get("/research/categories", [Navigator::class, "researchCategories"])->middleware("auth");
+Route::get("/research/edit/{id}", [Navigator::class, "editResearch"])->middleware("auth");
+Route::get('/admin/gallery', [Navigator::class,'gallery']);
+Route::get('/admin/downloads', [Navigator::class,'downloads']);
+Route::get('/admin/blogs', [Navigator::class,'blogs']);
+Route::get('/blogs/new', [Navigator::class,'newBlog']);
+Route::get("/blogs/edit/{id}", [Navigator::class, "editBlog"])->middleware("auth");
 
 Route::post('/register',[AuthController::class,'register'])->middleware('guest');
 Route::post('/password/request',[AuthController::class,'requestPassword'])->middleware('guest');
@@ -114,12 +131,39 @@ Route::post('/receipt/item/edit',[ReceiptController::class,'updateReceipt'])->mi
 Route::get('/receipt/item/delete/{id}',[ReceiptController::class,'deleteReceipt'])->middleware('auth');
 
 // Units
-Route::post("/inventory/uoms/new", [\App\Http\Controllers\UnitsController::class, "store"])->middleware("auth");
-Route::put("/inventory/uoms/{id}", [\App\Http\Controllers\UnitsController::class, "update"])->middleware("auth");
-Route::delete("/inventory/uoms/delete/{id}", [\App\Http\Controllers\UnitsController::class, "destroy"])->middleware("auth");
+Route::post("/inventory/uoms/new", [UnitsController::class, "store"])->middleware("auth");
+Route::put("/inventory/uoms/{id}", [UnitsController::class, "update"])->middleware("auth");
+Route::delete("/inventory/uoms/delete/{id}", [UnitsController::class, "destroy"])->middleware("auth");
 
 // Inventory
-Route::post("/inventory/list/new", [\App\Http\Controllers\InventoryController::class, "store"])->middleware("auth");
-Route::put("/inventory/list/{id}", [\App\Http\Controllers\InventoryController::class, "update"])->middleware("auth");
-Route::delete("/inventory/list/delete/{id}", [\App\Http\Controllers\InventoryController::class, "destroy"])->middleware
+Route::post("/inventory/list/new", [InventoryController::class, "store"])->middleware("auth");
+Route::put("/inventory/list/{id}", [InventoryController::class, "update"])->middleware("auth");
+Route::delete("/inventory/list/delete/{id}", [InventoryController::class, "destroy"])->middleware
 ("auth");
+
+Route::post("/procurement/new", [ProcurementController::class, "store"])->middleware("auth");
+Route::put("/procurement/edit/{id}", [ProcurementController::class, "update"])->middleware("auth");
+Route::delete("/procurement/delete/{id}", [ProcurementController::class, "destroy"])->middleware
+("auth");
+
+Route::post('/project/category/new',[ResearchCategoryController::class,'store'])->middleware('auth');
+Route::post('/project/category/edit',[ResearchCategoryController::class,'update'])->middleware('auth');
+Route::get('/project/category/delete/{id}',[ResearchCategoryController::class,'destroy'])->middleware('auth');
+
+Route::post('/research/new',[ResearchController::class,'store'])->middleware('auth');
+Route::post('/research/edit/{id}',[ResearchController::class,'update'])->middleware('auth');
+Route::get('/research/delete/{id}',[ResearchController::class,'destroy'])->middleware('auth');
+
+Route::post('/gallery/new', [GalleryController::class,'addToGallery'])->middleware('auth');;
+Route::post('/downloads/new', [DownloadController::class,'addToDownload'])->middleware('auth');;
+
+Route::post('/blogs/new', [BlogController::class,'storeBlog'])->middleware('auth');
+Route::get('/blogs/delete/{edit}', [BlogController::class,'deleteBlog'])->middleware('auth');
+Route::post("/blogs/edit/{id}", [BlogController::class, "editBlog"])->middleware("auth");
+
+
+
+
+Route::post('/system/files/add',[Navigator::class,'uploadTaskFile']);
+Route::delete('/system/files/delete',[Navigator::class,'removeTaskFile']);
+
