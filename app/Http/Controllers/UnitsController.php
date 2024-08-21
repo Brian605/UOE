@@ -36,7 +36,7 @@ class UnitsController extends Controller
         ]);
         if ($units)
         {
-            return to_route('units.index')->with([
+            return redirect()->back()->with([
                 "message" => "Units successfully created",
                 "success" => true
             ]);
@@ -77,7 +77,7 @@ class UnitsController extends Controller
             ]);
             if ($updated)
             {
-                return to_route('units.index')->with([
+                return redirect()->back()->with([
                     "message" => "Updated Successfully",
                     "success" => true
                 ]);
@@ -103,7 +103,7 @@ class UnitsController extends Controller
         {
             if ($units->delete())
             {
-                return to_route('units.index')->with([
+                return redirect()->back()->with([
                     "message" => "Deleted Successfully",
                     "success" => true
                 ]);

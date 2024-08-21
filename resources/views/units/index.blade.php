@@ -1,4 +1,8 @@
-@extends('layouts.backend')
+@extends('Admin.backend')
+@section('css')
+    <link rel="stylesheet" href="{{ asset('js/plugins/datatables-bs5/css/dataTables.bootstrap5.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('js/plugins/datatables-buttons-bs5/css/buttons.bootstrap5.min.css') }}">
+@endsection
 
 @section('content')
     <div class="block block-rounded">
@@ -6,12 +10,10 @@
             <h3 class="block-title">Crops</h3>
         </div>
         <div class="block-content block-content-full">
-            @can('units.index')
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createUnits">
                     Create Units
                 </button>
-            @endcan
 
             <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/tables_datatables.js -->
             <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
@@ -24,7 +26,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($units as $index => $unit)
+                @foreach(\App\Models\Units::all() as $index => $unit)
                     <tr>
                         <td class="text-center">{{ $index+1 }}</td>
                         <td class="fw-semibold">
@@ -34,15 +36,12 @@
                             {{ $unit->unit }}
                         </td>
                         <td class="d-flex gap-4">
-                            @can('units.edit')
                                 <button class="btn btn-secondary" data-bs-toggle="modal"
                                         data-bs-target="#editUnit" onclick="editForm({{ $unit }})">Edit
                                 </button>
-                            @endcan
-                            @can('units.destroy')
                                 <div>
                                     <form id="deleteForm{{$unit->id}}"
-                                          action="{{ route('units.destroy', $unit->id) }}"
+                                          action="/inventory/uoms/delete/{{$unit->id}}"
                                           method="post">
                                         @csrf
                                         @method('DELETE')
@@ -51,7 +50,6 @@
                                         </button>
                                     </form>
                                 </div>
-                            @endcan
                         </td>
                     </tr>
                 @endforeach
@@ -68,7 +66,7 @@
                         <h1 class="modal-title fs-5" id="createUnitsLabel">Add Unit</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="{{ route('units.store') }}" method="post">
+                    <form action="/inventory/uoms/new" method="post">
                         <div class="modal-body">
                             @csrf
                             <div class="mb-3">
@@ -122,7 +120,7 @@
     <script>
         const editForm = (unit) => {
             const form = document.getElementById('editForm')
-            form.action = `/units/${unit.id}`
+            form.action = `/inventory/uoms/${unit.id}`
             document.getElementById('edit_name').value = unit.name
             document.getElementById('edit_unit').value = unit.unit
         }

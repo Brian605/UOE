@@ -51,6 +51,9 @@ Route::get('/finance/income',[Navigator::class,'income'])->middleware('auth');
 Route::get('/finance/receipts',[Navigator::class,'receipts'])->middleware('auth');
 Route::get('/password/forget',[Navigator::class,'forgetPassword'])->middleware('guest');
 Route::get('/password/reset/{token}',[Navigator::class,'resetPassword'])->middleware('guest');
+Route::get("/inventory/uoms", [Navigator::class, "uoms"])->middleware("auth");
+Route::get("/inventory/list", [Navigator::class, "inventoryList"])->middleware("auth");
+
 
 Route::post('/register',[AuthController::class,'register'])->middleware('guest');
 Route::post('/password/request',[AuthController::class,'requestPassword'])->middleware('guest');
@@ -109,3 +112,14 @@ Route::get('/income/item/delete/{id}',[IncomeController::class,'deleteIncome'])-
 Route::post('/receipt/item/new',[ReceiptController::class,'storeReceipt'])->middleware('auth');
 Route::post('/receipt/item/edit',[ReceiptController::class,'updateReceipt'])->middleware('auth');
 Route::get('/receipt/item/delete/{id}',[ReceiptController::class,'deleteReceipt'])->middleware('auth');
+
+// Units
+Route::post("/inventory/uoms/new", [\App\Http\Controllers\UnitsController::class, "store"])->middleware("auth");
+Route::put("/inventory/uoms/{id}", [\App\Http\Controllers\UnitsController::class, "update"])->middleware("auth");
+Route::delete("/inventory/uoms/delete/{id}", [\App\Http\Controllers\UnitsController::class, "destroy"])->middleware("auth");
+
+// Inventory
+Route::post("/inventory/list/new", [\App\Http\Controllers\InventoryController::class, "store"])->middleware("auth");
+Route::put("/inventory/list/{id}", [\App\Http\Controllers\InventoryController::class, "update"])->middleware("auth");
+Route::delete("/inventory/list/delete/{id}", [\App\Http\Controllers\InventoryController::class, "destroy"])->middleware
+("auth");
