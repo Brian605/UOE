@@ -38,6 +38,7 @@ class InventoryController extends Controller
             'quantity' => $request->quantity,
             'unit_id' => $request->unit_id,
             'approved_by' => Auth::user()->id,
+            'category_id' => $request->category_id
         ]);
         if ($inventory)
         {
@@ -112,6 +113,7 @@ class InventoryController extends Controller
                 'quantity' => $request->quantity,
                 'unit_id' => $request->unit_id,
                 'approved_by' => Auth::user()->id,
+                'category_id' => $request->category_id
             ]);
             if ($updated)
             {

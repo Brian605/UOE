@@ -5,6 +5,7 @@
 @endsection
 @php
 $units = \App\Models\Units::all();
+$categories = \App\Models\ItemCategory::all();
  @endphp
 @section('content')
     <div class="block block-rounded">
@@ -109,6 +110,14 @@ $units = \App\Models\Units::all();
                                     @endforeach
                                 </select>
                             </div>
+                            <div class="mb-3">
+                                <label for="category_id" class="form-label">Category</label>
+                                <select class="form-control" id="category_id" name="unit_id">
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
@@ -143,6 +152,14 @@ $units = \App\Models\Units::all();
                                 <select class="form-control" id="edit_unit_id" name="unit_id">
                                     @foreach($units as $unit)
                                         <option value="{{ $unit->id }}">{{ $unit->unit }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="category_id" class="form-label">Category</label>
+                                <select class="form-control" id="category_id" name="unit_id">
+                                    @foreach($categories as $category)
+                                        <option value="{{ $category->id }}">{{ $category->name }}</option>
                                     @endforeach
                                 </select>
                             </div>
