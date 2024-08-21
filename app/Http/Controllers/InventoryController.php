@@ -37,11 +37,11 @@ class InventoryController extends Controller
             'name' => $request->name,
             'quantity' => $request->quantity,
             'unit_id' => $request->unit_id,
-            'approved_by' => Auth::user()->name,
+            'approved_by' => Auth::user()->id,
         ]);
         if ($inventory)
         {
-            return to_route('inventory.index')->with([
+            return redirect()->back()->with([
                 "message" => "Inventory successfully created",
                 "success" => true
             ]);
@@ -80,9 +80,9 @@ class InventoryController extends Controller
             {
                 $inventory->update([
                     'quantity' => $inventory->quantity + $request->quantity,
-                    'approved_by' => Auth::user()->name,
+                    'approved_by' => Auth::user()->id,
                 ]);
-                return to_route('inventory.index')->with([
+                return redirect()->back()->with([
                     "message" => "Inventory updated successfully",
                     "success" => true
                 ]);
@@ -99,9 +99,9 @@ class InventoryController extends Controller
                 }
                 $inventory->update([
                     'quantity' => $inventory->quantity - $request->quantity,
-                    'approved_by' => Auth::user()->name,
+                    'approved_by' => Auth::user()->id,
                 ]);
-                return to_route('inventory.index')->with([
+                return redirect()->back()->with([
                     "message" => "Inventory updated successfully",
                     "success" => true
                 ]);
@@ -111,11 +111,11 @@ class InventoryController extends Controller
                 'item' => $request->item,
                 'quantity' => $request->quantity,
                 'unit_id' => $request->unit_id,
-                'approved_by' => Auth::user()->name,
+                'approved_by' => Auth::user()->id,
             ]);
             if ($updated)
             {
-                return to_route('inventory.index')->with([
+                return redirect()->back()->with([
                     "message" => "Inventory updated successfully",
                     "success" => true
                 ]);
@@ -142,7 +142,7 @@ class InventoryController extends Controller
             $deleted = $inventory->delete();
             if ($deleted)
             {
-                return to_route('inventory.index')->with([
+                return redirect()->back()->with([
                     "message" => "Inventory deleted successfully",
                     "success" => true
                 ]);

@@ -20,4 +20,9 @@ class Inventory extends Model
     {
         return $this->belongsTo(Units::class);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class, "approved_by");
+    }
 }

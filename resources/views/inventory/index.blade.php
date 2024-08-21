@@ -1,17 +1,21 @@
-@extends('layouts.backend')
-
+@extends('Admin.backend')
+@section('css')
+    <link rel="stylesheet" href="{{ asset('js/plugins/datatables-bs5/css/dataTables.bootstrap5.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('js/plugins/datatables-buttons-bs5/css/buttons.bootstrap5.min.css') }}">
+@endsection
+@php
+$units = \App\Models\Units::all();
+ @endphp
 @section('content')
     <div class="block block-rounded">
         <div class="block-header block-header-default">
             <h3 class="block-title">Inventory</h3>
         </div>
         <div class="block-content block-content-full">
-            @can('livestocks.create')
                 <!-- Button trigger modal -->
                 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#createInventory">
                     Add Inventory
                 </button>
-            @endcan
 
             <!-- DataTables init on table by adding .js-dataTable-buttons class, functionality is initialized in js/pages/tables_datatables.js -->
             <table class="table table-bordered table-striped table-vcenter js-dataTable-buttons">
@@ -26,7 +30,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                @foreach($inventories as $index => $inventory)
+                @foreach(\App\Models\Inventory::all() as $index => $inventory)
                     <tr>
                         <td class="text-center">{{ $index+1 }}</td>
                         <td class="fw-semibold">
@@ -39,10 +43,9 @@
                             {{ $inventory->unit->unit }}
                         </td>
                         <td>
-                            {{ $inventory->approved_by }}
+                            {{ $inventory->user->name }}
                         </td>
                         <td class="d-flex gap-4">
-                            @can('inventory.edit')
                                 <button type="button" class="btn btn-secondary" data-bs-toggle="modal"
                                         data-bs-target="#editInventory" onclick="edit({{ $inventory }})">
                                     Edit
@@ -59,11 +62,9 @@
                                         'decrease')">
                                     Remove Quantity
                                 </button>
-                            @endcan
-                            @can('inventory.destroy')
                                 <div>
                                     <form id="deleteForm{{$inventory->id}}"
-                                          action="{{ route('inventory.destroy', $inventory->id) }}"
+                                          action="/inventory/list/delete/{{ $inventory->id }}"
                                           method="post">
                                         @csrf
                                         @method('DELETE')
@@ -72,7 +73,6 @@
                                         </button>
                                     </form>
                                 </div>
-                            @endcan
                         </td>
                     </tr>
                 @endforeach
@@ -90,7 +90,7 @@
                         <h1 class="modal-title fs-5" id="createInventoryLabel">Add Inventory</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form action="{{ route('inventory.store') }}" method="POST">
+                    <form action="/inventory/list/new" method="POST">
                         <div class="modal-body">
                             @csrf
                             <div class="mb-3">
@@ -187,13 +187,13 @@
             document.getElementById('edit_name').value = inventory.name;
             document.getElementById('edit_quantity').value = inventory.quantity;
             document.getElementById('edit_unit_id').value = inventory.unit_id;
-            document.getElementById('editForm').action = '/inventory/' + inventory.id;
+            document.getElementById('editForm').action = '/inventory/list/' + inventory.id;
         }
 
         function alterQuantity(inventory, type) {
             document.getElementById('edit_quantity').value = inventory.quantity;
             document.getElementById('alterQuantityType').value = type;
-            document.getElementById('editQuantityForm').action = '/inventory/' + inventory.id;
+            document.getElementById('editQuantityForm').action = '/inventory/list/' + inventory.id;
         }
 
     </script>

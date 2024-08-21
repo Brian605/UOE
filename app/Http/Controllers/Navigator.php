@@ -99,4 +99,14 @@ class Navigator extends Controller
     {
         return view('Admin.request_password');
     }
+
+    function uoms()
+    {
+        return view("units.index");
+    }
+
+    function inventoryList()
+    {
+        return view("inventory.index");
+    }
 }
