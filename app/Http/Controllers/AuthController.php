@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
+use Spatie\Permission\Models\Role;
 
 class AuthController extends Controller
 {
@@ -103,7 +104,9 @@ return back();
     function loginUser(Request $request)
     {
         if (auth()->attempt(['email' => $request->email, 'password' => $request->password])) {
-            if (\auth()->user()->hasRole('admin') || \auth()->user()->hasRole('Super Admin')) {
+
+            $accepted=Role::where('name','!=','user')->get();
+            if (\auth()->user()->hasAnyRole($accepted)) {
                return redirect('/admin') ;
             }
             auth()->logout();

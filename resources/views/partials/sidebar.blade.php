@@ -55,6 +55,8 @@
                         <span class="nav-main-link-name">Dashboard</span>
                     </a>
                 </li>
+
+                @hasanyrole('Super Admin|admin')
                 <li class="nav-main-heading">Users</li>
                 <li class="nav-main-item">
                     <a class="nav-main-link{{ request()->is('users') ? ' active' : '' }} " href="/users">
@@ -76,7 +78,8 @@
                         <span class="nav-main-link-name">Departments</span>
                     </a>
                 </li>
-
+@endhasanyrole
+                @hasanyrole('Super Admin|admin|crops')
                 <li class="nav-main-heading">Crops</li>
                 <li class="nav-main-item">
                     <a class="nav-main-link{{ request()->is('crops/lists') ? ' active' : '' }} " href="/crops/lists">
@@ -90,7 +93,6 @@
                         <span class="nav-main-link-name">Categories</span>
                     </a>
                 </li>
-
                 <hr class="w-100"/>
                 <li class="nav-main-item">
                     <a class="nav-main-link{{ request()->is('farm/plans') ? ' active' : '' }} " href="/farm/plans">
@@ -99,8 +101,9 @@
                     </a>
                 </li>
                 <hr class="w-100"/>
+                @endhasanyrole
 
-
+@hasanyrole('Super Admin|admin|livestock')
                 <li class="nav-main-heading">Livestock</li>
                 <li class="nav-main-item">
                     <a class="nav-main-link{{ request()->is('livestock/list') ? ' active' : '' }} " href="/livestock/list">
@@ -126,6 +129,9 @@
                         <span class="nav-main-link-name">Breeds</span>
                     </a>
                 </li>
+                @endhasanyrole
+
+                @hasanyrole('Super Admin|admin|finance')
 
                 <li class="nav-main-heading">Finance</li>
                 <li class="nav-main-item">
@@ -152,48 +158,65 @@
                         <span class="nav-main-link-name">Budgeting</span>
                     </a>
                 </li>
+                @endhasanyrole
 
                 <li class="nav-main-heading">Procurement</li>
+
+                @hasanyrole('Super Admin|admin|procurement')
                 <li class="nav-main-item">
                     <a class="nav-main-link{{ request()->is('procurement/list') ? ' active' : '' }} " href="/">
                         <i class="nav-main-link-icon fa fa-clipboard-list"></i>
                         <span class="nav-main-link-name">Procurement</span>
                     </a>
                 </li>
+                @endhasanyrole
+
+                @hasanyrole('Super Admin|admin|procurement|storage')
                 <li class="nav-main-item">
                     <a class="nav-main-link{{ request()->is('inventory/list') ? ' active' : '' }} " href="/">
                         <i class="nav-main-link-icon fa fa-box-open"></i>
                         <span class="nav-main-link-name">Inventory</span>
                     </a>
                 </li>
+                @endhasanyrole
                 <li class="nav-main-item">
                     <a class="nav-main-link{{ request()->is('inventory/categories') ? ' active' : '' }} " href="/inventory/categories">
                         <i class="nav-main-link-icon fa fa-boxes"></i>
                         <span class="nav-main-link-name">Item Categories</span>
                     </a>
                 </li>
+                @hasanyrole('Super Admin|admin|procurement|storage')
+
                 <li class="nav-main-item">
                     <a class="nav-main-link{{ request()->is('inventory/uoms') ? ' active' : '' }} " href="/inventory/uoms">
                         <i class="nav-main-link-icon fa fa-ruler"></i>
                         <span class="nav-main-link-name">Units Of Measurement</span>
                     </a>
                 </li>
+                @endhasanyrole
 
                 <hr class="w-100"/>
+
+                @hasanyrole('Super Admin|admin|research')
                 <li class="nav-main-item">
                     <a class="nav-main-link{{ request()->is('research') ? ' active' : '' }} " href="/">
                         <i class="nav-main-link-icon fa fa-project-diagram"></i>
                         <span class="nav-main-link-name">Research Projects</span>
                     </a>
                 </li>
+                @endhasanyrole
                 <hr class="w-100"/>
+
+                @hasanyrole('Super Admin|admin|finance')
                 <li class="nav-main-item">
                     <a class="nav-main-link{{ request()->is('reports') ? ' active' : '' }} " href="/">
                         <i class="nav-main-link-icon fa fa-chart-line"></i>
                         <span class="nav-main-link-name">Reports</span>
                     </a>
                 </li>
-                <li class="nav-main-heading">News and Media</li>
+                @endhasanyrole
+
+                 <li class="nav-main-heading">News and Media</li>
                 <li class="nav-main-item">
                     <a class="nav-main-link{{ request()->is('/admin/blogs') ? ' active' : '' }} " href="/">
                         <i class="nav-main-link-icon fa fa-book"></i>

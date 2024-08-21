@@ -1,7 +1,12 @@
+@php use Spatie\Permission\Models\Role; @endphp
 <!doctype html>
 <html lang="{{ config('app.locale') }}">
 
-@if(!auth()->check() || !(auth()->user()->hasRole('Super Admin') || auth()->user()->hasRole('admin')))
+@php
+    $accepted=Role::where('name','!=','user')->get();
+
+@endphp
+@if(!auth()->check() || !(auth()->user()->hasAnyRole($accepted)))
     <script>
         window.location.href='/login'
     </script>
