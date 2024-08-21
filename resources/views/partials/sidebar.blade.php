@@ -173,7 +173,8 @@
 
                 @hasanyrole('Super Admin|admin|procurement|storage')
                 <li class="nav-main-item">
-                    <a class="nav-main-link{{ request()->is('inventory/list') ? ' active' : '' }} " href="/">
+                    <a class="nav-main-link{{ request()->is('inventory/list') ? ' active' : '' }} "
+                       href="/inventory/list">
                         <i class="nav-main-link-icon fa fa-box-open"></i>
                         <span class="nav-main-link-name">Inventory</span>
                     </a>

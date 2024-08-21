@@ -223,7 +223,7 @@
                         </div>
                         <div class="p-2">
                            <div>
-                               <form action="{{ route('logout') }}" method="post">
+                               <form action="/logout" method="post">
                                    @csrf
                                    <button type="submit" class="btn btn-danger w-100">Logout</button>
                                </form>
