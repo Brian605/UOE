@@ -7,6 +7,7 @@ use App\Http\Controllers\CropsController;
 use App\Http\Controllers\DepartmentController;
 use App\Http\Controllers\DownloadController;
 use App\Http\Controllers\FarmPlansController;
+use App\Http\Controllers\FinanceController;
 use App\Http\Controllers\FinanceRecordController;
 use App\Http\Controllers\GalleryController;
 use App\Http\Controllers\IncomeController;
@@ -39,6 +40,7 @@ Route::get('/',[Navigator::class,'index'])->withoutMiddleware(Authenticate::clas
 Route::get('/home',[Navigator::class,'index'])->withoutMiddleware(Authenticate::class);
 Route::get('/about',[Navigator::class,'about'])->middleware('guest');
 Route::get('/admin',[Navigator::class,'admin'])->middleware('auth');
+Route::get('/dashboard',[Navigator::class,'admin'])->middleware('auth');
 Route::get('/login',[Navigator::class,'login'])->middleware('guest');
 Route::get('/register',[Navigator::class,'register'])->middleware('guest');
 Route::get('/logout',[Navigator::class,'logout'])->middleware('auth');
@@ -71,6 +73,8 @@ Route::get('/admin/downloads', [Navigator::class,'downloads']);
 Route::get('/admin/blogs', [Navigator::class,'blogs']);
 Route::get('/blogs/new', [Navigator::class,'newBlog']);
 Route::get("/blogs/edit/{id}", [Navigator::class, "editBlog"])->middleware("auth");
+Route::get("/reports", [Navigator::class, "reports"])->middleware("auth");
+Route::get('/getExpenseByCategory',[FinanceController::class,'getExpenseByCategory']);
 
 Route::post('/register',[AuthController::class,'register'])->middleware('guest');
 Route::post('/password/request',[AuthController::class,'requestPassword'])->middleware('guest');
@@ -160,6 +164,9 @@ Route::post('/downloads/new', [DownloadController::class,'addToDownload'])->midd
 Route::post('/blogs/new', [BlogController::class,'storeBlog'])->middleware('auth');
 Route::get('/blogs/delete/{edit}', [BlogController::class,'deleteBlog'])->middleware('auth');
 Route::post("/blogs/edit/{id}", [BlogController::class, "editBlog"])->middleware("auth");
+
+
+Route::get('/expenseAndIncome',[FinanceController::class,'getExpenseVsIncome']);
 
 
 

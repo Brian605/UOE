@@ -214,7 +214,7 @@
                 @endhasanyrole
                 <hr class="w-100"/>
 
-                @hasanyrole('Super Admin|admin|finance')
+                @hasanyrole('Super Admin|admin')
                 <li class="nav-main-item">
                     <a class="nav-main-link{{ request()->is('reports') ? ' active' : '' }} " href="/reports">
                         <i class="nav-main-link-icon fa fa-chart-line"></i>

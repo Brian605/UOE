@@ -3,7 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Finance;
+use App\Models\FinanceRecord;
+use App\Models\Income;
+use App\Models\ItemCategory;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class FinanceController extends Controller
 {
@@ -15,6 +20,30 @@ class FinanceController extends Controller
         return view('Finance.index', [
             "finances" => Finance::all()
         ]);
+    }
+
+    function getExpenseByCategory()
+    {
+        $groupedExpenses = FinanceRecord::
+        select('category_id',DB::raw('SUM(cost) as total_amount'))
+            ->groupBy('category_id')
+            ->orderBy('cost', 'desc')
+            ->get();
+        $rs=[];
+        foreach ($groupedExpenses as $expense) {
+            $category=ItemCategory::find($expense->category_id)->name;
+            $rs[] = [$category, $expense->total_amount];
+        }
+        return $rs;
+    }
+    function getExpenseVsIncome()
+    {
+        $incomes=Income::whereMonth('date',Carbon::now()->month)->whereYear('date',Carbon::now()->year)->get(['date','amount'])->toArray();
+        $expenses=FinanceRecord::whereMonth('date',Carbon::now()->month)->whereYear('date',Carbon::now()->year)->get(['date','cost'])->toArray();
+return [
+    'incomes'=>$incomes,
+    'expenses'=>$expenses
+];
     }
 
     /**

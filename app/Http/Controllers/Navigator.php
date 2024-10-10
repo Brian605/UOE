@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Log;
 class Navigator extends Controller
 {
     //
+    function reports()
+    {
+       return view('reports.reports');
+    }
     function editBlog($id)
     {
       return view('pages.editBlog',['blog'=>Blog::findOrFail($id)]);
@@ -119,7 +123,7 @@ class Navigator extends Controller
     }
     function admin()
     {
-        return view('Admin.backend');
+        return view('dashboard.admin');
     }
     function resetPassword($token)
     {
